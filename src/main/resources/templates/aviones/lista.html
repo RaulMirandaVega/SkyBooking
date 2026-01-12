@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Aviones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container py-4">
+    <h2 class="mb-3">Aviones</h2>
+    <p class="text-muted">Gestiona la flota de la aerolínea.</p>
+
+    <a th:href="@{/web/aviones/nuevo}" class="btn btn-success mb-3">Nuevo Avión</a>
+
+    <table class="table table-striped table-hover shadow-sm">
+        <thead class="table-dark">
+        <tr>
+            <th>Matrícula</th>
+            <th>Modelo</th>
+            <th>Capacidad Turista</th>
+            <th>Capacidad Business</th>
+            <th>Vuelos Asociados</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="avion : ${aviones}">
+            <td th:text="${avion.matricula}"></td>
+            <td th:text="${avion.modelo}"></td>
+            <td th:text="${avion.capacidadTurista}"></td>
+            <td th:text="${avion.capacidadBusiness}"></td>
+            <td th:text="${#lists.size(avion.vuelos)}"></td>
+            <td>
+                <a th:href="@{/web/aviones/editar/{id}(id=${avion.id})}" class="btn btn-sm btn-warning">Editar</a>
+                <a th:href="@{/web/aviones/eliminar/{id}(id=${avion.id})}"
+                   class="btn btn-sm btn-danger"
+                   onclick="return confirm('¿Eliminar avión?')">Eliminar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/}" class="btn btn-secondary mt-3">Volver al panel principal</a>
+</div>
+
+</body>
+</html>

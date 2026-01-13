@@ -4,45 +4,96 @@
     <meta charset="UTF-8">
     <title>Listado de Aviones</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+
+        .container { padding-top: 2.5rem; padding-bottom: 2.5rem; max-width: 900px; }
+        h2 { color: #0d6efd; font-weight: 700; margin-bottom: 0.25rem; text-align: center; }
+        p { color: #6c757d; text-align: center; margin-bottom: 2rem; }
+
+        table {
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        thead th {
+            background-color: #0d6efd;
+            color: white;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        tbody tr {
+            background-color: #ffffff;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        tbody tr:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+        }
+
+        tbody td { vertical-align: middle; text-align: center; }
+
+        .btn-new { display: block; margin: 0 auto 1.5rem auto; }
+        .btn-edit { background-color: #ffc107; color: #212529; border: none; }
+        .btn-edit:hover { background-color: #e0a800; }
+        .btn-back { margin-top: 1.5rem; }
+    </style>
 </head>
-<body class="bg-light">
+<body>
 
-<div class="container py-4">
-    <h2 class="mb-3">Aviones</h2>
-    <p class="text-muted">Gestiona la flota de la aerolínea.</p>
+<div class="container">
+    <h2>Aviones</h2>
+    <p>Consulta y administra todos los aviones registrados.</p>
 
-    <a th:href="@{/web/aviones/nuevo}" class="btn btn-success mb-3">Nuevo Avión</a>
+    <a th:href="@{/web/aviones/nuevo}" class="btn btn-success btn-new">Nuevo Avión</a>
 
-    <table class="table table-striped table-hover shadow-sm">
-        <thead class="table-dark">
+    <table class="table table-hover table-striped">
+        <thead>
         <tr>
             <th>Matrícula</th>
             <th>Modelo</th>
-            <th>Capacidad Turista</th>
-            <th>Capacidad Business</th>
-            <th>Vuelos Asociados</th>
+            <th>Capacidad</th>
+            <th>Estado</th>
             <th>Acciones</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="avion : ${aviones}">
-            <td th:text="${avion.matricula}"></td>
-            <td th:text="${avion.modelo}"></td>
-            <td th:text="${avion.capacidadTurista}"></td>
-            <td th:text="${avion.capacidadBusiness}"></td>
-            <td th:text="${#lists.size(avion.vuelos)}"></td>
+            <td th:text="${avion.matricula}">EC1234</td>
+            <td th:text="${avion.modelo}">Airbus A320</td>
+            <td th:text="${avion.capacidad}">180</td>
             <td>
-                <a th:href="@{/web/aviones/editar/{id}(id=${avion.id})}" class="btn btn-sm btn-warning">Editar</a>
+                <span th:text="${avion.estado}"
+                      th:classappend="${avion.estado == 'OPERATIVO'} ? 'text-success' : 'text-danger'">
+                      OPERATIVO
+                </span>
+            </td>
+            <td>
+                <a th:href="@{/web/aviones/editar/{id}(id=${avion.id})}" class="btn btn-sm btn-edit">
+                    <i class="bi bi-pencil-fill"></i> Editar
+                </a>
                 <a th:href="@{/web/aviones/eliminar/{id}(id=${avion.id})}"
-                   class="btn btn-sm btn-danger"
-                   onclick="return confirm('¿Eliminar avión?')">Eliminar</a>
+                   class="btn btn-sm btn-outline-danger"
+                   onclick="return confirm('¿Eliminar avión?')">
+                    <i class="bi bi-x-circle-fill"></i> Eliminar
+                </a>
             </td>
         </tr>
         </tbody>
     </table>
 
-    <a th:href="@{/}" class="btn btn-secondary mt-3">Volver al panel principal</a>
+    <a th:href="@{/}" class="btn btn-secondary btn-back">Volver al panel principal</a>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

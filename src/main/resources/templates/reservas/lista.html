@@ -44,11 +44,19 @@
             text-align: center;
         }
 
-        .badge-status {
+        .estado-texto {
             font-weight: 600;
-            padding: 0.5em 0.75em;
-            border-radius: 0.5rem;
+            font-size: 0.9rem;
         }
+
+        .estado-confirmada {
+            color: #198754; /* verde Bootstrap (success) */
+        }
+
+        .estado-no-confirmada {
+            color: #dc3545; /* rojo Bootstrap (danger) */
+        }
+
 
         .btn-edit { background-color: #ffc107; color: #212529; border: none; }
         .btn-edit:hover { background-color: #e0a800; }
@@ -87,11 +95,16 @@
             <td th:text="${reserva.clase}">TURISTA</td>
             <td th:text="${#numbers.formatDecimal(reserva.precioTotal, 2, 'POINT', ',', '') + ' €'}">120 €</td>
             <td>
-                    <span class="badge badge-status"
-                          th:classappend="${reserva.estado == 'CONFIRMADA'} ? ' bg-success' :
-                                           (${reserva.estado == 'CANCELADA'} ? ' bg-danger' : ' bg-warning')"
-                          th:text="${reserva.estado}">CONFIRMADA</span>
+                <span class="estado-texto"
+                      th:classappend="${reserva.estado == 'CONFIRMADA'}
+                          ? ' estado-confirmada'
+                          : ' estado-no-confirmada'"
+                      th:text="${reserva.estado}">
+                    CONFIRMADA
+                </span>
             </td>
+
+
             <td th:text="${reserva.asiento != null ? reserva.asiento : '—'}">12A</td>
             <td th:text="${#temporals.format(reserva.fechaReserva, 'dd/MM/yyyy HH:mm')}">12/01/2026 14:30</td>
             <td>

@@ -1,6 +1,6 @@
 package com.skybooking.model;
 
-public enum ClaseReserva {
+public enum ClaseAsiento {
     TURISTA,
     BUSINESS
 }

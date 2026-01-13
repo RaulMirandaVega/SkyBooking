@@ -1,7 +1,7 @@
 package com.skybooking.model;
 
 public enum EstadoReserva {
-    CONFIRMADA
+    CONFIRMADA,
     CANCELADA,
     PENDIENTE_PAGO
 }

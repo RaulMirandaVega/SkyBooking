@@ -18,21 +18,24 @@ public class Reserva {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
-    @Column(name = "codigo_reserva", nullable = false, unique = "true")
+    @Column(name = "codigo_reserva", nullable = false, unique = true)
     private String codigoReserva;
     @Column(name = "fecha_reserva", nullable = false)
-    private LocalDate fechaReserva;
+    private LocalDateTime fechaReserva;
     @Enumerated(EnumType.STRING)
     @Column()
-    private ClaseReserva clase;
+    private ClaseAsiento clase;
     @Column(name = "precio_total", nullable = false)
     private BigDecimal precioTotal;
     @Enumerated(EnumType.STRING)
     @Column()
     private EstadoReserva estado;
+    @Column()
+    private String asiento;
+    private String asiento;
     @ManyToOne
-    @JoinColumn(name = "avion_id")
-    private Avion avion;
+    @JoinColumn(name = "vuelo_id", nullable = false)
+    private Vuelo vuelo;
     @ManyToOne
     @JoinColumn(name = "pasajero_id")
     private Pasajero pasajero;

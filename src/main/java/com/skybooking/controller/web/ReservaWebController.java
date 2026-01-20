@@ -1,6 +1,7 @@
 package com.skybooking.controller.web;
 
 
+import com.skybooking.dto.ReservaDTO;
 import com.skybooking.model.Reserva;
 import com.skybooking.service.PasajeroService;
 import com.skybooking.service.ReservaService;
@@ -36,14 +37,14 @@ public class ReservaWebController {
 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
-        model.addAttribute("reserva", new Reserva());
+        model.addAttribute("reserva", new ReservaDTO());
         model.addAttribute("pasajeros", pasajeroService.listarTodos());
         model.addAttribute("vuelos", vueloService.listarTodos());
         return "reservas/formulario";
     }
 
     @PostMapping("/guardar")
-    public String guardar(@Valid @ModelAttribute("reserva") Reserva reserva,
+    public String guardar(@Valid @ModelAttribute("reserva") ReservaDTO reservaDTO,
                           BindingResult result,
                           Model model,
                           RedirectAttributes redirectAttributes) {
@@ -54,10 +55,12 @@ public class ReservaWebController {
             return "reservas/formulario";
         }
 
-        reservaService.guardar(reserva);
+        reservaService.crear(reservaDTO);
+
         redirectAttributes.addFlashAttribute("success", "Reserva guardada correctamente");
         return "redirect:/web/reservas";
     }
+
 
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Long id, Model model) {

@@ -1,6 +1,7 @@
 package com.skybooking.controller.web;
 
 
+import com.skybooking.dto.VueloDTO;
 import com.skybooking.model.Vuelo;
 import com.skybooking.service.VueloService;
 import jakarta.validation.Valid;
@@ -28,12 +29,13 @@ public class VueloWebController {
 
     @GetMapping("/nuevo")
     public String mostrarFormularioNuevo(Model model) {
-        model.addAttribute("vuelo", new Vuelo());
+        model.addAttribute("vuelo", new VueloDTO());
         return "vuelos/formulario";
     }
 
+
     @PostMapping("/guardar")
-    public String guardar(@Valid @ModelAttribute("vuelo") Vuelo vuelo,
+    public String guardar(@Valid @ModelAttribute("vuelo") VueloDTO vueloDTO,
                           BindingResult result,
                           RedirectAttributes redirectAttributes) {
 
@@ -41,10 +43,11 @@ public class VueloWebController {
             return "vuelos/formulario";
         }
 
-        vueloService.guardar(vuelo);
+        vueloService.crear(vueloDTO);
         redirectAttributes.addFlashAttribute("success", "Vuelo guardado correctamente");
         return "redirect:/web/vuelos";
     }
+
 
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Long id, Model model) {

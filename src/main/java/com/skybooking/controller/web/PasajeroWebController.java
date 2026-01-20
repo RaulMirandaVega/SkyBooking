@@ -1,4 +1,61 @@
 package com.skybooking.controller.web;
 
+import com.skybooking.model.Pasajero;
+import com.skybooking.service.PasajeroService;
+import jakarta.validation.Valid;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+@Controller
+@RequestMapping("/web/pasajeros")
 public class PasajeroWebController {
+
+    private final PasajeroService pasajeroService;
+
+    public PasajeroWebController(PasajeroService pasajeroService) {
+        this.pasajeroService = pasajeroService;
+    }
+
+    @GetMapping
+    public String listar(Model model) {
+        model.addAttribute("pasajeros", pasajeroService.listarTodos());
+        return "pasajeros/lista";
+    }
+
+    @GetMapping("/nuevo")
+    public String nuevo(Model model) {
+        model.addAttribute("pasajero", new Pasajero());
+        return "pasajeros/formulario";
+    }
+
+    @PostMapping("/guardar")
+    public String guardar(@Valid @ModelAttribute("pasajero") Pasajero pasajero,
+                          BindingResult result,
+                          RedirectAttributes redirectAttributes) {
+
+        if (result.hasErrors()) {
+            return "pasajeros/formulario";
+        }
+
+        pasajeroService.guardar(pasajero);
+        redirectAttributes.addFlashAttribute("success", "Pasajero guardado correctamente");
+        return "redirect:/web/pasajeros";
+    }
+
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Long id, Model model) {
+        model.addAttribute("pasajero", pasajeroService.buscarPorId(id));
+        return "pasajeros/formulario";
+    }
+
+    @GetMapping("/eliminar/{id}")
+    public String eliminar(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        pasajeroService.eliminar(id);
+        redirectAttributes.addFlashAttribute("success", "Pasajero eliminado");
+        return "redirect:/web/pasajeros";
+    }
 }
+

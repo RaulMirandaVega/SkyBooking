@@ -4,7 +4,9 @@ import com.skybooking.dto.PasajeroDTO;
 import com.skybooking.exception.BusinessException;
 import com.skybooking.exception.ResourceNotFoundException;
 import com.skybooking.model.Pasajero;
+import com.skybooking.model.Reserva;
 import com.skybooking.repository.PasajeroRepository;
+import com.skybooking.repository.ReservaRepository;
 import com.skybooking.service.PasajeroService;
 
 import lombok.RequiredArgsConstructor;
@@ -103,9 +105,9 @@ public class PasajeroServiceImpl implements PasajeroService {
         if (!pasajeroRepository.existsById(id)) {
             throw new ResourceNotFoundException("Pasajero no encontrado");
         }
-        Lias<Reserva> reservasPasajero = reservaRepository.findByPasajeroId(id);
+        List<Reserva> reservasPasajero = reservaRepository.findByPasajeroId(id);
         if (!reservasPasajero.isEmpty()) {
-            throw new BusinessException("No se puede eliminar al pasajero por tener reservas asociadas. ")
+            throw new BusinessException("No se puede eliminar al pasajero por tener reservas asociadas. ");
         }
 
         pasajeroRepository.deleteById(id);

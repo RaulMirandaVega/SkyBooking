@@ -10,7 +10,7 @@ import com.skybooking.repository.AvionRepository;
 import com.skybooking.repository.VueloRepository;
 import com.skybooking.service.VueloService;
 
-import lombok.RequieredArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -45,10 +45,10 @@ public class VueloServiceImpl implements VueloService {
     @Transactional
     public VueloDTO crear(VueloDTO dto) {
         if (vueloRepository.findByNumeroVuelo(dto.getNumeroVuelo()).isPresent()) {
-            throw new BusinessException("Ya existe un vuelo con el número " + dto.getNumeroVuelo())
+            throw new BusinessException("Ya existe un vuelo con el número " + dto.getNumeroVuelo());
         }
         Avion avion = avionRepository.findById(dto.getAvionId())
-                .orElseThrow(() -> new ResourceNotFoundException("Avion no encontrado con ID " + (dto.getAvionId)));
+                .orElseThrow(() -> new ResourceNotFoundException("Avion no encontrado con ID " + (dto.getAvionId())));
         Vuelo vuelo = convertirAEntidad(dto);
         vuelo.setAvion(avion);
 
@@ -85,7 +85,7 @@ public class VueloServiceImpl implements VueloService {
     @Transactional
     public void eliminar(Long id) {
         if (!vueloRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Vuelo no encontrado")
+            throw new ResourceNotFoundException("Vuelo no encontrado");
         }
         vueloRepository.deleteById(id);
     }

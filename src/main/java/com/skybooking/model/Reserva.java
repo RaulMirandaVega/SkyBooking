@@ -2,6 +2,8 @@ package com.skybooking.model;
 
 import lombok.*;
 import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.time.LocalDate;
 import java.math.BigDecimal;
@@ -31,7 +33,6 @@ public class Reserva {
     @Column()
     private EstadoReserva estado;
     @Column()
-    private String asiento;
     private String asiento;
     @ManyToOne
     @JoinColumn(name = "vuelo_id", nullable = false)

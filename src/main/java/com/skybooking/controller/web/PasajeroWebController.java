@@ -1,5 +1,6 @@
 package com.skybooking.controller.web;
 
+import com.skybooking.dto.PasajeroDTO;
 import com.skybooking.model.Pasajero;
 import com.skybooking.service.PasajeroService;
 import jakarta.validation.Valid;
@@ -27,12 +28,13 @@ public class PasajeroWebController {
 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
-        model.addAttribute("pasajero", new Pasajero());
+        model.addAttribute("pasajero", new PasajeroDTO());
         return "pasajeros/formulario";
     }
 
+
     @PostMapping("/guardar")
-    public String guardar(@Valid @ModelAttribute("pasajero") Pasajero pasajero,
+    public String guardar(@Valid @ModelAttribute("pasajero") PasajeroDTO pasajeroDTO,
                           BindingResult result,
                           RedirectAttributes redirectAttributes) {
 
@@ -40,16 +42,18 @@ public class PasajeroWebController {
             return "pasajeros/formulario";
         }
 
-        pasajeroService.guardar(pasajero);
+        pasajeroService.crear(pasajeroDTO); // ✅ Usar DTO y servicio
         redirectAttributes.addFlashAttribute("success", "Pasajero guardado correctamente");
         return "redirect:/web/pasajeros";
     }
+
 
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Long id, Model model) {
         model.addAttribute("pasajero", pasajeroService.buscarPorId(id));
         return "pasajeros/formulario";
     }
+
 
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable Long id, RedirectAttributes redirectAttributes) {

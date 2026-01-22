@@ -81,12 +81,10 @@
         <div class="flight-additional">
             <div>
                 <strong>Precio Turista:</strong>
-                <span class="value-price" th:text="${#numbers.formatDecimal(vuelo.precioTurista,2,'POINT',',','')} + ' €'">120 €</span>
-            </div>
+                <span class="value-price" th:text="${#numbers.formatDecimal(vuelo.precioTurista, 1, 'COMMA', 2, 'POINT')}">0,00</span>            </div>
             <div>
                 <strong>Precio Business:</strong>
-                <span class="value-price" th:text="${#numbers.formatDecimal(vuelo.precioBusiness,2,'POINT',',','')} + ' €'">250 €</span>
-            </div>
+                <span class="value-price" th:text="${#numbers.formatDecimal(vuelo.precioBusiness, 1, 'COMMA', 2, 'POINT')}">0,00</span>            </div>
             <div>
                 <strong>Acciones:</strong>
                 <span class="action-buttons">

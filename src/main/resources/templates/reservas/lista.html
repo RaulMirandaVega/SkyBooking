@@ -93,7 +93,7 @@
             <td th:text="${reserva.pasajeroNombre}">Juan Pérez</td>
             <td th:text="${reserva.vueloNumero}">IB3001</td>
             <td th:text="${reserva.clase}">TURISTA</td>
-            <td th:text="${#numbers.formatDecimal(reserva.precioTotal, 2, 'POINT', ',', '') + ' €'}">120 €</td>
+            <td th:text="${#numbers.formatDecimal(reserva.precioTotal, 1, 'COMMA', 2, 'POINT') + ' €'}">120 €</td>
             <td>
                 <span class="estado-texto"
                       th:classappend="${reserva.estado == 'CONFIRMADA'}

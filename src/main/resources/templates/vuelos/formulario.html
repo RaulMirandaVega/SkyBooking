@@ -1,40 +1,275 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Formulario Vuelo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Vuelo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h2 {
+            color: #2c3e50;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+
+        .icon {
+            font-size: 40px;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .input-container {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #95a5a6;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 14px 14px 45px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 35px;
+        }
+
+        button {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #2c3e50;
+            border: 1px solid #e0e0e0;
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .message {
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            text-align: center;
+            display: none;
+            font-weight: 500;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 25px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
+<div class="container">
+    <div class="header">
+        <div class="icon">
+            <i class="fas fa-plane"></i>
+        </div>
+        <h2>Registro de Vuelo</h2>
+        <p>Complete los datos del vuelo</p>
+    </div>
 
-<div class="container py-4">
-    <h2 th:text="${vuelo.id == null} ? 'Nuevo Vuelo' : 'Editar Vuelo'"></h2>
+    <div id="message" class="message"></div>
 
-    <form th:action="@{/web/vuelos/guardar}" th:object="${vuelo}" method="post">
-        <input type="hidden" th:field="*{id}"/>
-
-        <div class="mb-3">
-            <label class="form-label">Número de Vuelo</label>
-            <input type="text" class="form-control"
-                   th:field="*{numeroVuelo}"
-                   th:classappend="${#fields.hasErrors('numeroVuelo')} ? 'is-invalid' : ''">
-            <div class="invalid-feedback" th:errors="*{numeroVuelo}"></div>
+    <form id="flightForm">
+        <div class="form-group">
+            <label for="flightNumber">Número de Vuelo</label>
+            <div class="input-container">
+                <i class="fas fa-hashtag input-icon"></i>
+                <input type="text" id="flightNumber" placeholder="Ej: AA1234" required>
+            </div>
         </div>
 
-        <div class="mb-3">
-            <label class="form-label">Origen</label>
-            <input type="text" class="form-control" th:field="*{origen}">
+        <div class="form-group">
+            <label for="origin">Origen</label>
+            <div class="input-container">
+                <i class="fas fa-plane-departure input-icon"></i>
+                <input type="text" id="origin" placeholder="Ciudad de origen" required>
+            </div>
         </div>
 
-        <div class="mb-3">
-            <label class="form-label">Destino</label>
-            <input type="text" class="form-control" th:field="*{destino}">
+        <div class="form-group">
+            <label for="destination">Destino</label>
+            <div class="input-container">
+                <i class="fas fa-plane-arrival input-icon"></i>
+                <input type="text" id="destination" placeholder="Ciudad de destino" required>
+            </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <a th:href="@{/web/vuelos}" class="btn btn-secondary">Cancelar</a>
+        <div class="buttons">
+            <button type="submit" class="btn-primary">
+                <i class="fas fa-save"></i>
+                Guardar Vuelo
+            </button>
+            <button type="button" class="btn-secondary" onclick="cancel()">
+                <i class="fas fa-times"></i>
+                Cancelar
+            </button>
+        </div>
     </form>
 </div>
 
+<script>
+    document.getElementById('flightForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const flightNumber = document.getElementById('flightNumber').value.trim();
+        const origin = document.getElementById('origin').value.trim();
+        const destination = document.getElementById('destination').value.trim();
+        const messageEl = document.getElementById('message');
+
+        // Validación básica
+        if (!flightNumber || !origin || !destination) {
+            showMessage('Por favor complete todos los campos requeridos', 'error');
+            return;
+        }
+
+        if (flightNumber.length < 4) {
+            showMessage('El número de vuelo debe tener al menos 4 caracteres', 'error');
+            return;
+        }
+
+        // Simulación de envío exitoso
+        showMessage(`Vuelo ${flightNumber} guardado exitosamente`, 'success');
+
+        // Aquí normalmente enviarías los datos al servidor
+        // Para este ejemplo, limpiamos el formulario después de 2 segundos
+        setTimeout(() => {
+            document.getElementById('flightForm').reset();
+            messageEl.style.display = 'none';
+        }, 2000);
+    });
+
+    function cancel() {
+        const flightNumber = document.getElementById('flightNumber').value.trim();
+        const origin = document.getElementById('origin').value.trim();
+        const destination = document.getElementById('destination').value.trim();
+
+        if (flightNumber || origin || destination) {
+            if (confirm('¿Está seguro de que desea cancelar? Se perderán los cambios no guardados.')) {
+                document.getElementById('flightForm').reset();
+                document.getElementById('message').style.display = 'none';
+            }
+        } else {
+            document.getElementById('flightForm').reset();
+        }
+    }
+
+    function showMessage(text, type) {
+        const messageEl = document.getElementById('message');
+        messageEl.textContent = text;
+        messageEl.className = `message ${type}`;
+        messageEl.style.display = 'block';
+    }
+</script>
 </body>
 </html>

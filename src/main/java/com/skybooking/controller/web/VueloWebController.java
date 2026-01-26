@@ -2,7 +2,6 @@ package com.skybooking.controller.web;
 
 
 import com.skybooking.dto.VueloDTO;
-import com.skybooking.model.Vuelo;
 import com.skybooking.service.VueloService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -43,10 +42,32 @@ public class VueloWebController {
             return "vuelos/formulario";
         }
 
-        vueloService.crear(vueloDTO);
-        redirectAttributes.addFlashAttribute("success", "Vuelo guardado correctamente");
+        if (vueloDTO.getId() != null) {
+            // Es un vuelo existente: cargar la entidad y actualizar campos
+            VueloDTO vueloExistente = vueloService.buscarPorId(vueloDTO.getId());
+
+            vueloExistente.setNumeroVuelo(vueloDTO.getNumeroVuelo());
+            vueloExistente.setOrigen(vueloDTO.getOrigen());
+            vueloExistente.setDestino(vueloDTO.getDestino());
+            vueloExistente.setFechaSalida(vueloDTO.getFechaSalida());
+            vueloExistente.setFechaLlegada(vueloDTO.getFechaLlegada());
+            vueloExistente.setPrecioTurista(vueloDTO.getPrecioTurista());
+            vueloExistente.setPrecioBusiness(vueloDTO.getPrecioBusiness());
+            vueloExistente.setAvionId(vueloDTO.getAvionId());
+            vueloExistente.setAvionModelo(vueloDTO.getAvionModelo());
+            vueloExistente.setEstado(vueloDTO.getEstado());
+            vueloService.crear(vueloExistente);
+
+            redirectAttributes.addFlashAttribute("success", "Vuelo actualizado correctamente");
+        } else {
+            // Nuevo vuelo
+            vueloService.crear(vueloDTO);
+            redirectAttributes.addFlashAttribute("success", "Vuelo creado correctamente");
+        }
+
         return "redirect:/web/vuelos";
     }
+
 
 
     @GetMapping("/editar/{id}")

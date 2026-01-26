@@ -78,7 +78,8 @@
             <select class="form-select" th:field="*{pasajeroId}">
                 <option value="">-- Selecciona pasajero --</option>
                 <option th:each="p : ${pasajeros}" th:value="${p.id}"
-                        th:text="${p.nombre + ' ' + p.apellidos}"></option>
+                        th:text="${p.nombre + ' ' + p.apellidos}"
+                        th:selected="${reserva.pasajeroId == p.id}"></option>
             </select>
             <div class="text-danger" th:errors="*{pasajeroId}"></div>
         </div>
@@ -91,25 +92,27 @@
                 <option th:each="v : ${vuelos}" th:value="${v.id}"
                         th:data-precio-turista="${v.precioTurista}"
                         th:data-precio-business="${v.precioBusiness}"
-                        th:text="${v.numeroVuelo + ' · ' + v.origen + ' → ' + v.destino}"></option>
+                        th:text="${v.numeroVuelo + ' · ' + v.origen + ' → ' + v.destino}"
+                        th:selected="${reserva.vueloId == v.id}"></option>
             </select>
             <div class="text-danger" th:errors="*{vueloId}"></div>
         </div>
 
-        <!-- Clase y precio -->
+        <!-- Clase y Precio -->
         <div class="row">
             <div class="col-md-6 mb-3">
                 <label class="form-label">Clase</label>
                 <select class="form-select" th:field="*{clase}">
                     <option value="">-- Selecciona clase --</option>
-                    <option value="TURISTA">Turista</option>
-                    <option value="BUSINESS">Business</option>
+                    <option value="TURISTA" th:selected="${reserva.clase == 'TURISTA'}">Turista</option>
+                    <option value="BUSINESS" th:selected="${reserva.clase == 'BUSINESS'}">Business</option>
                 </select>
                 <div class="text-danger" th:errors="*{clase}"></div>
             </div>
             <div class="col-md-6 mb-3">
                 <label class="form-label">Precio estimado</label>
-                <input type="text" id="precioCalculado" class="form-control" readonly placeholder="— €">
+                <input type="text" id="precioCalculado" class="form-control" readonly
+                       th:value="${reserva.precioTotal != null} ? ${#numbers.formatDecimal(reserva.precioTotal,1,'COMMA',2,'POINT')} + ' €' : '— €'">
                 <div class="helper-text">El precio se calcula automáticamente según el vuelo y la clase.</div>
             </div>
         </div>
@@ -118,6 +121,17 @@
         <div class="mb-3">
             <label class="form-label">Asiento (opcional)</label>
             <input type="text" class="form-control" th:field="*{asiento}" placeholder="Ej: 12A">
+        </div>
+
+        <!-- Estado -->
+        <div class="mb-3">
+            <label class="form-label">Estado</label>
+            <select class="form-select" th:field="*{estado}">
+                <option value="">-- Selecciona estado --</option>
+                <option value="PENDIENTE" th:selected="${reserva.estado == 'PENDIENTE'}">PENDIENTE</option>
+                <option value="CONFIRMADA" th:selected="${reserva.estado == 'CONFIRMADA'}">CONFIRMADA</option>
+                <option value="CANCELADA" th:selected="${reserva.estado == 'CANCELADA'}">CANCELADA</option>
+            </select>
         </div>
 
         <!-- Botones -->
@@ -136,30 +150,18 @@
     function calcularPrecio() {
         const vueloOption = vueloSelect.options[vueloSelect.selectedIndex];
         const clase = claseSelect.value;
+        if (!vueloOption || !clase) { precioInput.value = '— €'; return; }
 
-        if (!vueloOption || !clase) {
-            precioInput.value = '— €';
-            return;
-        }
+        let precio = clase === 'TURISTA' ? vueloOption.dataset.precioTurista
+            : clase === 'BUSINESS' ? vueloOption.dataset.precioBusiness
+                : null;
 
-        let precio = null;
-
-        if (clase === 'TURISTA') {
-            precio = vueloOption.dataset.precioTurista;
-        } else if (clase === 'BUSINESS') {
-            precio = vueloOption.dataset.precioBusiness;
-        }
-
-        if (precio) {
-            precioInput.value = parseFloat(precio).toFixed(2) + ' €';
-        } else {
-            precioInput.value = '— €';
-        }
+        precioInput.value = precio ? parseFloat(precio).toFixed(2) + ' €' : '— €';
     }
 
     vueloSelect.addEventListener('change', calcularPrecio);
     claseSelect.addEventListener('change', calcularPrecio);
+    window.addEventListener('load', calcularPrecio);
 </script>
-
 </body>
 </html>

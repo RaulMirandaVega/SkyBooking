@@ -49,18 +49,53 @@ public class ReservaWebController {
                           Model model,
                           RedirectAttributes redirectAttributes) {
 
+        // Si hay errores, recargar los datos de vuelos y pasajeros
         if (result.hasErrors()) {
             model.addAttribute("pasajeros", pasajeroService.listarTodos());
             model.addAttribute("vuelos", vueloService.listarTodos());
             return "reservas/formulario";
         }
 
+        // Obtener el vuelo seleccionado para calcular precio
+        var vueloSeleccionado = vueloService.buscarPorId(reservaDTO.getVueloId());
+
+        if (vueloSeleccionado != null) {
+            if ("TURISTA".equals(reservaDTO.getClase())) {
+                reservaDTO.setPrecioTotal(vueloSeleccionado.getPrecioTurista());
+            } else if ("BUSINESS".equals(reservaDTO.getClase())) {
+                reservaDTO.setPrecioTotal(vueloSeleccionado.getPrecioBusiness());
+            }
+        }
+
+        // Si no tiene estado, asignar por defecto "PENDIENTE"
+        if (reservaDTO.getEstado() == null) {
+            reservaDTO.setEstado("PENDIENTE");
+        }
+
+        // Guardar la reserva (funciona tanto para creación como para edición)
         reservaService.crear(reservaDTO);
 
-        redirectAttributes.addFlashAttribute("success", "Reserva guardada correctamente");
+        redirectAttributes.addFlashAttribute("success",
+                reservaDTO.getId() != null ? "Reserva actualizada correctamente" : "Reserva creada correctamente");
+
         return "redirect:/web/reservas";
     }
 
+    @GetMapping("/cambiarEstado/{id}")
+    public String cambiarEstado(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        var reserva = reservaService.buscarPorId(id);
+        if (reserva != null) {
+            // Cambiar entre PENDIENTE → CONFIRMADA → CANCELADA → PENDIENTE
+            switch (reserva.getEstado()) {
+                case "PENDIENTE" -> reserva.setEstado("CONFIRMADA");
+                case "CONFIRMADA" -> reserva.setEstado("CANCELADA");
+                default -> reserva.setEstado("PENDIENTE");
+            }
+            reservaService.crear(reserva); // reutiliza crear para guardar cambios
+            redirectAttributes.addFlashAttribute("success", "Estado actualizado correctamente");
+        }
+        return "redirect:/web/reservas";
+    }
 
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Long id, Model model) {

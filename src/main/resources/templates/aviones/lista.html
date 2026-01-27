@@ -63,20 +63,13 @@
             <th>Modelo</th>
             <th>Capacidad</th>
             <th>Estado</th>
-            <th>Acciones</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="avion : ${aviones}">
             <td th:text="${avion.matricula}">EC1234</td>
             <td th:text="${avion.modelo}">Airbus A320</td>
-            <td th:text="${avion.capacidad}">180</td>
-            <td>
-                <span th:text="${avion.estado}"
-                      th:classappend="${avion.estado == 'OPERATIVO'} ? 'text-success' : 'text-danger'">
-                      OPERATIVO
-                </span>
-            </td>
+            <td th:text="${avion.capacidadTurista + ' / ' + avion.capacidadBusiness}">150 / 20</td>
             <td>
                 <a th:href="@{/web/aviones/editar/{id}(id=${avion.id})}" class="btn btn-sm btn-edit">
                     <i class="bi bi-pencil-fill"></i> Editar

@@ -46,11 +46,11 @@ public class AvionWebController {
             return "aviones/formulario";
         }
         if (avionDTO.getId() == null) {
-            // 👉 CREAR
+            // CREAR
             avionService.crear(avionDTO);
             redirectAttributes.addFlashAttribute("success", "Avión creado correctamente");
         } else {
-            // 👉 ACTUALIZAR
+            // ACTUALIZAR
             avionService.actualizar(avionDTO.getId(), avionDTO);
             redirectAttributes.addFlashAttribute("success", "Avión actualizado correctamente");
         }

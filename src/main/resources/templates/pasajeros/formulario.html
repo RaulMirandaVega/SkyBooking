@@ -2,127 +2,86 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Formulario de Pasajero</title>
+    <title th:text="${pasajero.id == null} ? 'Nuevo Pasajero' : 'Editar Pasajero'">Formulario de Pasajero</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f8f9fa;
-            color: #343a40;
-        }
-
+        body { font-family: 'Poppins', sans-serif; background: #f0f4f8; }
         .container {
             max-width: 600px;
-            padding-top: 2.5rem;
-            padding-bottom: 2.5rem;
-        }
-
-        h2 {
-            text-align: center;
-            font-weight: 700;
-            color: #0d6efd;
-            margin-bottom: 0.25rem;
-        }
-
-        p {
-            text-align: center;
-            color: #6c757d;
-            margin-bottom: 2rem;
-        }
-
-        .card-form {
-            background-color: #ffffff;
+            margin: 3rem auto;
+            background-color: #fff;
             border-radius: 1rem;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
             padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
         }
-
-        .form-label {
-            font-weight: 600;
-            color: #495057;
-        }
-
+        h2 { text-align: center; color: #0d6efd; font-weight: 700; margin-bottom: 0.5rem; }
+        p { text-align: center; color: #6c757d; margin-bottom: 2rem; }
+        .form-label { font-weight: 600; }
         .form-control {
             border-radius: 0.5rem;
             padding: 0.65rem 0.75rem;
             border: 1px solid #ced4da;
             transition: border-color 0.2s, box-shadow 0.2s;
         }
-
         .form-control:focus {
             border-color: #0d6efd;
             box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
         }
-
-        .text-danger {
-            font-size: 0.85rem;
-            margin-top: 0.25rem;
-        }
-
-        .btn-submit {
-            width: 100%;
-            font-weight: 600;
-            margin-top: 1rem;
-        }
-
-        .btn-cancel {
-            width: 100%;
-            font-weight: 600;
-            margin-top: 0.5rem;
-        }
+        .text-danger { font-size: 0.85rem; margin-top: 0.25rem; }
+        .btn-primary, .btn-secondary { width: 100%; font-weight: 600; border-radius: 0.5rem; margin-top: 0.5rem; }
+        .btn-primary { background-color: #0d6efd; border: none; }
+        .btn-primary:hover { background-color: #0b5ed7; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="card-form">
-        <h2 th:text="${pasajero.id == null} ? 'Nuevo Pasajero' : 'Editar Pasajero'">Nuevo Pasajero</h2>
-        <p>Completa los datos del pasajero</p>
+    <h2 th:text="${pasajero.id == null} ? 'Nuevo Pasajero' : 'Editar Pasajero'">Nuevo Pasajero</h2>
+    <p>Completa los datos del pasajero</p>
 
-        <form th:action="@{/web/pasajeros/guardar}" th:object="${pasajero}" method="post">
-            <input type="hidden" th:field="*{id}"/>
+    <form th:action="@{/web/pasajeros/guardar}" th:object="${pasajero}" method="post">
+        <input type="hidden" th:field="*{id}"/>
 
-            <div class="mb-3">
-                <label class="form-label">Nombre</label>
-                <input type="text" class="form-control" th:field="*{nombre}" placeholder="Introduce el nombre">
-                <div class="text-danger" th:errors="*{nombre}"></div>
-            </div>
+        <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input type="text" class="form-control" th:field="*{nombre}" placeholder="Introduce el nombre">
+            <div class="text-danger" th:errors="*{nombre}"></div>
+        </div>
 
-            <div class="mb-3">
-                <label class="form-label">Apellidos</label>
-                <input type="text" class="form-control" th:field="*{apellidos}" placeholder="Introduce los apellidos">
-                <div class="text-danger" th:errors="*{apellidos}"></div>
-            </div>
+        <div class="mb-3">
+            <label class="form-label">Apellidos</label>
+            <input type="text" class="form-control" th:field="*{apellidos}" placeholder="Introduce los apellidos">
+            <div class="text-danger" th:errors="*{apellidos}"></div>
+        </div>
 
-            <div class="mb-3">
-                <label class="form-label">DNI</label>
-                <input type="text" class="form-control" th:field="*{dni}" placeholder="Ej: 12345678A">
-                <div class="text-danger" th:errors="*{dni}"></div>
-            </div>
+        <div class="mb-3">
+            <label class="form-label">DNI</label>
+            <input type="text" class="form-control" th:field="*{dni}" placeholder="Ej: 12345678A">
+            <div class="text-danger" th:errors="*{dni}"></div>
+        </div>
 
-            <div class="mb-3">
-                <label class="form-label">Email</label>
-                <input type="email" class="form-control" th:field="*{email}" placeholder="Ej: ejemplo@mail.com">
-                <div class="text-danger" th:errors="*{email}"></div>
-            </div>
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" th:field="*{email}" placeholder="Ej: ejemplo@mail.com">
+            <div class="text-danger" th:errors="*{email}"></div>
+        </div>
 
-            <div class="mb-3">
-                <label class="form-label">Teléfono (opcional)</label>
-                <input type="text" class="form-control" th:field="*{telefono}" placeholder="Ej: 612345678">
-            </div>
+        <div class="mb-3">
+            <label class="form-label">Teléfono (opcional)</label>
+            <input type="text" class="form-control" th:field="*{telefono}" placeholder="Ej: 612345678">
+        </div>
 
-            <div class="mb-3">
-                <label class="form-label">Fecha de Nacimiento</label>
-                <input type="date" class="form-control" th:field="*{fechaNacimiento}">
-                <div class="text-danger" th:errors="*{fechaNacimiento}"></div>
-            </div>
+        <div class="mb-3">
+            <label class="form-label">Fecha de Nacimiento</label>
+            <input type="date" class="form-control" th:field="*{fechaNacimiento}">
+            <div class="text-danger" th:errors="*{fechaNacimiento}"></div>
+        </div>
 
-            <button type="submit" class="btn btn-primary btn-submit">Guardar</button>
-            <a th:href="@{/web/pasajeros}" class="btn btn-secondary btn-cancel">Cancelar</a>
-        </form>
-    </div>
+        <button type="submit" class="btn btn-primary"><i class="bi bi-save-fill"></i> Guardar</button>
+        <a th:href="@{/web/pasajeros}" class="btn btn-secondary"><i class="bi bi-x-circle-fill"></i> Cancelar</a>
+    </form>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

@@ -1,6 +1,5 @@
 package com.skybooking.model;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,11 +11,18 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "roles")
 public class Rol {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
     private Long id;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
     private NombreRol nombre;
+
+    public enum NombreRol {
+        ROLE_USER,
+        ROLE_ADMIN,
+        ROLE_EMPLEADO
+    }
 }

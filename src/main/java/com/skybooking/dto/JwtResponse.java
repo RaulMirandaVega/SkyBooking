@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class JwtResquest {
+public class JwtResponse {
     private String token;
     private String type = "Bearer";
     private Long id;

@@ -11,7 +11,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegistroResponse {
+public class RegistroRequest {
     @NotBlank
     @Size(min = 3, max = 20)
     private String username;

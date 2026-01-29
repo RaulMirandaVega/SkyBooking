@@ -54,7 +54,6 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public String getUsername() { return username; }
 
-    // La mayoría retornan true según la guía [cite: 177, 187, 188]
     @Override
     public boolean isAccountNonExpired() { return true; }
 

@@ -29,7 +29,7 @@ public class Usuario {
     @Column
     private String nombre;
     @Column
-    private String apellido;
+    private String apellidos;
     @Column(nullable = false)
     private boolean enabled = true;
     @ManyToMany(fetch = FetchType.EAGER)

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>SkyBooking - Pasajeros</title>
@@ -94,6 +94,7 @@
     </style>
 </head>
 <body>
+<div th:replace="fragments :: header"></div>
 
 <div class="container">
     <h2>Pasajeros</h2>

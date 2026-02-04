@@ -11,8 +11,11 @@ import jakarta.validation.constraints.*;
 public class AvionDTO {
 
     private Long id;
+    @NotBlank
     private String matricula;
+    @NotBlank
     private String modelo;
+    @NotNull
     @Min(value = 1)
     private Integer capacidadTurista;
     @NotNull

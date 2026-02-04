@@ -12,14 +12,19 @@ import java.time.LocalDate;
 public class PasajeroDTO {
 
     private Long id;
+    @NotBlank
     private String nombre;
+    @NotBlank
     private String apellidos;
-    @Pattern(regexp = "^[0-9]{8}[A-Z]$")
+    @NotBlank
+    @Pattern(regexp = "^[0-9]{8}[A-Z]$", message = "El DNI debe tener 8 dígitos seguidos de una letra mayúscula")
     private String dni;
+    @NotBlank
     @Email
     private String email;
     private String telefono;
-    @Past
+    @NotNull
+    @Past(message = "La fecha de nacimiento debe ser anterior a hoy")
     private LocalDate fechaNacimiento;
 
 }

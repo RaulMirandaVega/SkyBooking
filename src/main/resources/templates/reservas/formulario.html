@@ -91,9 +91,9 @@
             <select class="form-select" th:field="*{vueloId}">
                 <option value="">-- Selecciona vuelo --</option>
                 <option th:each="v : ${vuelos}" th:value="${v.id}"
-                        th:data-precio-turista="${v.precioTurista}"
-                        th:data-precio-business="${v.precioBusiness}"
-                        th:text="${v.numeroVuelo + ' · ' + v.origen + ' → ' + v.destino}"></option>
+                        th:data-precio-turista="${v.precioTurista != null ? v.precioTurista : '0'}"
+                        th:data-precio-business="${v.precioBusiness != null ? v.precioBusiness : '0'}"
+                        th:text="|${v.numeroVuelo} · ${v.origen} → ${v.destino}|"></option>
             </select>
             <div class="text-danger" th:errors="*{vueloId}"></div>
         </div>
@@ -163,5 +163,6 @@
     claseSelect.addEventListener('change', calcularPrecio);
 </script>
 
+<div th:replace="fragments :: footer"></div>
 </body>
 </html>

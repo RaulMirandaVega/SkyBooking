@@ -75,11 +75,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/login", "/css/**", "/js/**", "/images/**", "/error", "/acceso-denegado").permitAll()
 
-                        .requestMatchers("/web/vuelos", "/web/reservas", "/web/pasajeros").permitAll()
+                        .requestMatchers("/web/vuelos").permitAll()
 
                         .requestMatchers("/web/vuelos/**").authenticated()
 
                         .requestMatchers("/web/aviones/**").hasRole("ADMIN")
+
 
                         .requestMatchers("/web/reservas/**", "/web/pasajeros/**").hasAnyRole("ADMIN", "EMPLEADO")
 

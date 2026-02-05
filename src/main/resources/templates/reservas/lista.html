@@ -67,8 +67,7 @@
     </style>
 </head>
 <body>
-<div th:replace="fragments/header :: header"></div>
-<div class="container">
+<div th:replace="~{fragments/header :: header}"></div><div class="container">
     <h2>Reservas</h2>
     <p>Aquí puedes ver todas las reservas realizadas por los pasajeros.</p>
 
@@ -94,8 +93,7 @@
             <td th:text="${reserva.pasajeroNombre}">Juan Pérez</td>
             <td th:text="${reserva.vueloNumero}">IB3001</td>
             <td th:text="${reserva.clase}">TURISTA</td>
-            <td th:text="${#numbers.formatDecimal(reserva.precioTotal, 2, 'POINT', ',', '') + ' €'}">120 €</td>
-            <td>
+            <td th:text="${reserva.precioTotal != null ? #numbers.formatDecimal(reserva.precioTotal, 1, 'POINT', 2, 'COMMA') + ' €' : '0,00 €'}"></td>            <td>
                 <span class="estado-texto"
                       th:classappend="${reserva.estado == 'CONFIRMADA'}
                           ? ' estado-confirmada'

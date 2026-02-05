@@ -43,43 +43,35 @@ public class AuthRestController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginRequest.getUsername(),
-                            loginRequest.getPassword()
-                    )
-            );
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getUsername(),
+                        loginRequest.getPassword()
+                )
+        );
 
-            String jwt = jwtUtils.generateJwtToken(authentication);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            UserDetailsImpl userDetails =
-                    (UserDetailsImpl) authentication.getPrincipal();
+        String jwt = jwtUtils.generateJwtToken(authentication);
 
-            List<String> roles = userDetails.getAuthorities().stream()
-                    .map(item -> item.getAuthority())
-                    .collect(Collectors.toList());
+        UserDetailsImpl userDetails =
+                (UserDetailsImpl) authentication.getPrincipal();
 
-            JwtResponse response = new JwtResponse(
-                    jwt,
-                    "Bearer",
-                    userDetails.getId(),
-                    userDetails.getUsername(),
-                    userDetails.getEmail(),
-                    roles
-            );
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(item -> item.getAuthority())
+                .collect(Collectors.toList());
 
-            return ResponseEntity.ok(response);
-        } catch (org.springframework.security.core.AuthenticationException ex) {
-            ErrorResponse error = new ErrorResponse(
-                    HttpStatus.UNAUTHORIZED.value(),
-                    "Credenciales inválidas",
-                    java.time.LocalDateTime.now()
-            );
-            return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
-        }
+        JwtResponse response = new JwtResponse(
+                jwt,
+                "Bearer",
+                userDetails.getId(),
+                userDetails.getUsername(),
+                userDetails.getEmail(),
+                roles
+        );
+
+        return ResponseEntity.ok(response);
     }
 
 

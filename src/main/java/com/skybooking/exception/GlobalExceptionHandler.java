@@ -48,17 +48,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
-    // Autenticación fallida (401)
-    @ExceptionHandler(org.springframework.security.core.AuthenticationException.class)
-    public ResponseEntity<ErrorResponse> handleAuthenticationException(org.springframework.security.core.AuthenticationException ex) {
-        ErrorResponse error = new ErrorResponse(
-                HttpStatus.UNAUTHORIZED.value(),
-                "Credenciales inválidas",
-                LocalDateTime.now()
-        );
-        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
-    }
-
     // Cualquier otro error inesperado (500)
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex) {

@@ -44,11 +44,12 @@
     </style>
 </head>
 <body>
-<div th:replace="fragments/header :: header"></div>
+<div th:replace="~{fragments/header :: header}"></div>
+
 <div class="container">
     <div class="card-form">
         <h2 th:text="${avion.id == null} ? 'Nuevo Avión' : 'Editar Avión'">Nuevo Avión</h2>
-        <p>Completa los datos del avión</p>
+        <p>Completa los datos técnicos del avión</p>
 
         <form th:action="@{/web/aviones/guardar}" th:object="${avion}" method="post">
             <input type="hidden" th:field="*{id}"/>
@@ -65,23 +66,22 @@
                 <div class="text-danger" th:errors="*{modelo}"></div>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">Capacidad</label>
-                <input type="number" class="form-control" th:field="*{capacidad}" placeholder="Ej: 180">
-                <div class="text-danger" th:errors="*{capacidad}"></div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Capacidad Turista</label>
+                    <input type="number" class="form-control" th:field="*{capacidadTurista}">
+                    <div class="text-danger" th:errors="*{capacidadTurista}"></div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Capacidad Business</label>
+                    <input type="number" class="form-control" th:field="*{capacidadBusiness}">
+                    <div class="text-danger" th:errors="*{capacidadBusiness}"></div>
+                </div>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">Estado</label>
-                <select class="form-select" th:field="*{estado}">
-                    <option value="">-- Selecciona estado --</option>
-                    <option value="OPERATIVO">Operativo</option>
-                    <option value="FUERA_DE_SERVICIO">Fuera de servicio</option>
-                </select>
-                <div class="text-danger" th:errors="*{estado}"></div>
-            </div>
-
-            <button type="submit" class="btn btn-primary btn-submit">Guardar</button>
+            <button type="submit" class="btn btn-primary btn-submit">
+                <i class="bi bi-save"></i> Guardar Avión
+            </button>
             <a th:href="@{/web/aviones}" class="btn btn-secondary btn-cancel">Cancelar</a>
         </form>
     </div>

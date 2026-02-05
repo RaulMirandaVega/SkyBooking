@@ -121,7 +121,7 @@
         </div>
 
         <!-- Reservas -->
-        <div class="col-12 col-sm-6 col-lg-3" sec:authorize="hasAnyRole('ADMIN', 'EMPLEADO')">
+        <div class="col-12 col-sm-6 col-lg-3" sec:authorize="hasAnyAuthority('ROLE_ADMIN', 'ROLE_EMPLEADO')">
             <div class="menu-card">
                 <div>
                     <i class="bi bi-ticket-perforated-fill"></i>
@@ -134,7 +134,7 @@
         </div>
 
         <!-- Pasajeros -->
-        <div class="col-12 col-sm-6 col-lg-3" sec:authorize="hasAnyRole('ADMIN', 'EMPLEADO')">
+        <div class="col-12 col-sm-6 col-lg-3" sec:authorize="hasAnyAuthority('ROLE_ADMIN', 'ROLE_EMPLEADO')">
             <div class="menu-card">
                 <div>
                     <i class="bi bi-people-fill"></i>
@@ -147,7 +147,7 @@
         </div>
 
         <!-- Flota -->
-        <div class="col-12 col-sm-6 col-lg-3" sec:authorize="hasRole('ADMIN')">
+        <div class="col-12 col-sm-6 col-lg-3" sec:authorize="hasAuthority('ROLE_ADMIN')">
             <div class="menu-card card-admin">
                 <div>
                     <i class="bi bi-building-fill-gear"></i>

@@ -73,16 +73,16 @@ public class SecurityConfig {
         http
                 .securityMatcher("/", "/web/**", "/login", "/logout", "/css/**", "/js/**", "/images/**", "/error")
                 .authorizeHttpRequests(auth -> auth
-                        // Páginas públicas
-                        .requestMatchers("/", "/login", "/css/**", "/js/**", "/images/**", "/error").permitAll()
+                        .requestMatchers("/", "/login", "/css/**", "/js/**", "/images/**", "/error", "/acceso-denegado").permitAll()
 
-                        // Panel admin: solo rol ADMIN
+                        .requestMatchers("/web/vuelos", "/web/reservas", "/web/pasajeros").permitAll()
+
+                        .requestMatchers("/web/vuelos/**").authenticated()
+
                         .requestMatchers("/web/aviones/**").hasRole("ADMIN")
 
-                        // Panel empleado: rol ADMIN o EMPLEADO
                         .requestMatchers("/web/reservas/**", "/web/pasajeros/**").hasAnyRole("ADMIN", "EMPLEADO")
 
-                        // Cualquier otra URL requiere autenticación
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

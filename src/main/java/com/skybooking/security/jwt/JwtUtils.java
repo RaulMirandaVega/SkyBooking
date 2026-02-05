@@ -23,48 +23,42 @@ public class JwtUtils {
     @Value("${app.jwt.expiration}")
     private int jwtExpirationMs;
 
-    // Decodifica la clave y crea la SecretKey necesaria para JJWT
     private SecretKey getSigningKey() {
         byte[] keyBytes = Base64.getDecoder().decode(this.jwtSecret);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    // Generar el token tras un login
+    // Generar token
     public String generateJwtToken(Authentication authentication) {
-        UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal(); // [cite: 216]
+        UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
         return Jwts.builder()
-                .subject(userPrincipal.getUsername())
-                .issuedAt(new Date())
-                .expiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(getSigningKey())
+                .setSubject(userPrincipal.getUsername())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .signWith(SignatureAlgorithm.HS256, getSigningKey())
                 .compact();
     }
 
-    // Extraer el username de un token
+    // Extraer username
     public String getUserNameFromJwtToken(String token) {
-        return Jwts.parser()
-                .verifyWith(getSigningKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
+        return Jwts.parser()                 // <-- parser() en vez de parserBuilder()
+                .setSigningKey(getSigningKey())
+                .parseClaimsJws(token)
+                .getBody()
                 .getSubject();
     }
 
-    // Validar si el token no ha expirado [
     public boolean validateJwtToken(String authToken) {
         try {
-            Jwts.parser().verifyWith(getSigningKey()).build().parseSignedClaims(authToken);
+            Jwts.parser()
+                    .setSigningKey(getSigningKey())
+                    .parseClaimsJws(authToken);
             return true;
-        } catch (MalformedJwtException e) {
-            logger.error("Token JWT inválido: {}", e.getMessage());
-        } catch (ExpiredJwtException e) {
-            logger.error("Token JWT expirado: {}", e.getMessage());
-        } catch (UnsupportedJwtException e) {
-            logger.error("Token JWT no soportado: {}", e.getMessage());
-        } catch (IllegalArgumentException e) {
-            logger.error("La cadena claims de JWT está vacía: {}", e.getMessage());
+        } catch (JwtException e) {
+            logger.error("Error token JWT: {}", e.getMessage());
         }
         return false;
     }
+
 }

@@ -3,7 +3,9 @@ package com.skybooking.controller.web;
 
 import com.skybooking.dto.VueloDTO;
 import com.skybooking.model.Vuelo;
+import com.skybooking.model.EstadoVuelo;
 import com.skybooking.service.VueloService;
+import com.skybooking.service.AvionService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +18,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class VueloWebController {
 
     private final VueloService vueloService;
+    private final AvionService avionService;
 
-    public VueloWebController(VueloService vueloService) {
+    public VueloWebController(VueloService vueloService, AvionService avionService) {
         this.vueloService = vueloService;
+        this.avionService = avionService;
     }
 
     @GetMapping
@@ -30,6 +34,8 @@ public class VueloWebController {
     @GetMapping("/nuevo")
     public String mostrarFormularioNuevo(Model model) {
         model.addAttribute("vuelo", new VueloDTO());
+        model.addAttribute("aviones", avionService.listarTodos());
+        model.addAttribute("estados", EstadoVuelo.values());
         return "vuelos/formulario";
     }
 
@@ -37,9 +43,12 @@ public class VueloWebController {
     @PostMapping("/guardar")
     public String guardar(@Valid @ModelAttribute("vuelo") VueloDTO vueloDTO,
                           BindingResult result,
+                          Model model,
                           RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
+            model.addAttribute("aviones", avionService.listarTodos());
+            model.addAttribute("estados", EstadoVuelo.values());
             return "vuelos/formulario";
         }
 
@@ -52,6 +61,8 @@ public class VueloWebController {
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Long id, Model model) {
         model.addAttribute("vuelo", vueloService.buscarPorId(id));
+        model.addAttribute("aviones", avionService.listarTodos());
+        model.addAttribute("estados", EstadoVuelo.values());
         return "vuelos/formulario";
     }
 

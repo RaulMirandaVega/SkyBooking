@@ -3,6 +3,8 @@ package com.skybooking.controller.web;
 
 import com.skybooking.dto.ReservaDTO;
 import com.skybooking.model.Reserva;
+import com.skybooking.model.ClaseAsiento;
+import com.skybooking.model.EstadoReserva;
 import com.skybooking.service.PasajeroService;
 import com.skybooking.service.ReservaService;
 import com.skybooking.service.VueloService;
@@ -40,6 +42,8 @@ public class ReservaWebController {
         model.addAttribute("reserva", new ReservaDTO());
         model.addAttribute("pasajeros", pasajeroService.listarTodos());
         model.addAttribute("vuelos", vueloService.listarTodos());
+        model.addAttribute("clases", ClaseAsiento.values());
+        model.addAttribute("estados", EstadoReserva.values());
         return "reservas/formulario";
     }
 
@@ -52,6 +56,8 @@ public class ReservaWebController {
         if (result.hasErrors()) {
             model.addAttribute("pasajeros", pasajeroService.listarTodos());
             model.addAttribute("vuelos", vueloService.listarTodos());
+            model.addAttribute("clases", ClaseAsiento.values());
+            model.addAttribute("estados", EstadoReserva.values());
             return "reservas/formulario";
         }
 
@@ -67,6 +73,8 @@ public class ReservaWebController {
         model.addAttribute("reserva", reservaService.buscarPorId(id));
         model.addAttribute("pasajeros", pasajeroService.listarTodos());
         model.addAttribute("vuelos", vueloService.listarTodos());
+        model.addAttribute("clases", ClaseAsiento.values());
+        model.addAttribute("estados", EstadoReserva.values());
         return "reservas/formulario";
     }
 

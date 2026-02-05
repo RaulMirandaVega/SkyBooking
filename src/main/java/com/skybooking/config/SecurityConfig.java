@@ -36,7 +36,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider(UserDetailsService userDetailsService) {
+    public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
@@ -61,7 +61,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 );
 
-        http.authenticationProvider(authenticationProvider(userDetailsService));
+        http.authenticationProvider(authenticationProvider());
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -94,7 +94,7 @@ public class SecurityConfig {
                 )
                 .exceptionHandling(ex -> ex.accessDeniedPage("/acceso-denegado"));
 
-        http.authenticationProvider(authenticationProvider(userDetailsService));
+        http.authenticationProvider(authenticationProvider());
         return http.build();
     }
 }

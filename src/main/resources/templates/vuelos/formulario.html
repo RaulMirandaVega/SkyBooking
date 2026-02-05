@@ -99,10 +99,7 @@
                     <label class="form-label">Estado</label>
                     <select class="form-select" th:field="*{estado}">
                         <option value="">-- Selecciona estado --</option>
-                        <option value="PROGRAMADO">Programado</option>
-                        <option value="EN_VUELO">En Vuelo</option>
-                        <option value="FINALIZADO">Finalizado</option>
-                        <option value="CANCELADO">Cancelado</option>
+                        <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado}"></option>
                     </select>
                     <div class="text-danger" th:errors="*{estado}"></div>
                 </div>

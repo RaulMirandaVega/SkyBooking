@@ -104,8 +104,7 @@
                 <label class="form-label">Clase</label>
                 <select class="form-select" th:field="*{clase}">
                     <option value="">-- Selecciona clase --</option>
-                    <option value="TURISTA">Turista</option>
-                    <option value="BUSINESS">Business</option>
+                    <option th:each="clase : ${clases}" th:value="${clase}" th:text="${clase}"></option>
                 </select>
                 <div class="text-danger" th:errors="*{clase}"></div>
             </div>

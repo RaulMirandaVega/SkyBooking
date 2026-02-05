@@ -10,19 +10,29 @@
 
     <style>
         body {
-            background: linear-gradient(to bottom, #f0f4f8, #ffffff);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             font-family: 'Poppins', sans-serif;
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .login-container {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
         }
 
         .login-card {
             background: #ffffff;
             padding: 2.5rem;
             border-radius: 1rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             width: 100%;
             max-width: 400px;
         }
@@ -87,7 +97,8 @@
 </head>
 <body>
 
-<div class="login-card">
+<div class="login-container">
+    <div class="login-card">
     <div class="brand-title">
         <i class="bi bi-airplane-engines"></i> SkyBooking
     </div>
@@ -124,10 +135,11 @@
         </button>
     </form>
 
-    <div class="text-center mt-4">
-        <a th:href="@{/}" class="text-decoration-none text-muted small">
-            <i class="bi bi-arrow-left"></i> Volver al inicio
-        </a>
+        <div class="text-center mt-4">
+            <a th:href="@{/}" class="text-decoration-none text-muted small">
+                <i class="bi bi-arrow-left"></i> Volver al inicio
+            </a>
+        </div>
     </div>
 </div>
 

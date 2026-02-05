@@ -42,10 +42,19 @@ public class PasajeroWebController {
             return "pasajeros/formulario";
         }
 
-        pasajeroService.crear(pasajeroDTO); // ✅ Usar DTO y servicio
-        redirectAttributes.addFlashAttribute("success", "Pasajero guardado correctamente");
+        if (pasajeroDTO.getId() == null) {
+            // CREAR nuevo pasajero
+            pasajeroService.crear(pasajeroDTO);
+            redirectAttributes.addFlashAttribute("success", "Pasajero creado correctamente");
+        } else {
+            // ACTUALIZAR pasajero existente
+            pasajeroService.actualizar(pasajeroDTO.getId(), pasajeroDTO);
+            redirectAttributes.addFlashAttribute("success", "Pasajero actualizado correctamente");
+        }
+
         return "redirect:/web/pasajeros";
     }
+
 
 
     @GetMapping("/editar/{id}")

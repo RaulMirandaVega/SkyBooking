@@ -53,6 +53,7 @@ public class ReservaWebController {
                           Model model,
                           RedirectAttributes redirectAttributes) {
 
+        // Si hay errores, recargar los datos de vuelos y pasajeros
         if (result.hasErrors()) {
             model.addAttribute("pasajeros", pasajeroService.listarTodos());
             model.addAttribute("vuelos", vueloService.listarTodos());
@@ -61,12 +62,62 @@ public class ReservaWebController {
             return "reservas/formulario";
         }
 
-        reservaService.crear(reservaDTO);
+        // Calcular precio según clase y vuelo seleccionado
+        var vueloSeleccionado = vueloService.buscarPorId(reservaDTO.getVueloId());
+        if (vueloSeleccionado != null) {
+            switch (reservaDTO.getClase()) {
+                case "TURISTA" -> reservaDTO.setPrecioTotal(vueloSeleccionado.getPrecioTurista());
+                case "BUSINESS" -> reservaDTO.setPrecioTotal(vueloSeleccionado.getPrecioBusiness());
+            }
+        }
 
-        redirectAttributes.addFlashAttribute("success", "Reserva guardada correctamente");
+        // Si no tiene estado, asignar por defecto
+        if (reservaDTO.getEstado() == null) {
+            reservaDTO.setEstado("PENDIENTE");
+        }
+
+        if (reservaDTO.getId() == null) {
+            // CREAR nueva reserva
+            reservaService.crear(reservaDTO);
+            redirectAttributes.addFlashAttribute("success", "Reserva creada correctamente");
+        } else {
+            // ACTUALIZAR reserva existente: primero obtenerla
+            var reservaExistente = reservaService.buscarPorId(reservaDTO.getId());
+
+            // Actualizar solo los campos permitidos
+            reservaExistente.setVueloId(reservaDTO.getVueloId());
+            reservaExistente.setPasajeroId(reservaDTO.getPasajeroId());
+            reservaExistente.setClase(reservaDTO.getClase());
+            reservaExistente.setAsiento(reservaDTO.getAsiento());
+            reservaExistente.setPrecioTotal(reservaDTO.getPrecioTotal());
+            reservaExistente.setEstado(reservaDTO.getEstado());
+
+            // Guardar cambios reutilizando crear()
+            reservaService.crear(reservaExistente);
+
+            redirectAttributes.addFlashAttribute("success", "Reserva actualizada correctamente");
+        }
+
         return "redirect:/web/reservas";
     }
 
+
+
+    @GetMapping("/cambiarEstado/{id}")
+    public String cambiarEstado(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        var reserva = reservaService.buscarPorId(id);
+        if (reserva != null) {
+            // Cambiar entre PENDIENTE → CONFIRMADA → CANCELADA → PENDIENTE
+            switch (reserva.getEstado()) {
+                case "PENDIENTE" -> reserva.setEstado("CONFIRMADA");
+                case "CONFIRMADA" -> reserva.setEstado("CANCELADA");
+                default -> reserva.setEstado("PENDIENTE");
+            }
+            reservaService.crear(reserva); // reutiliza crear para guardar cambios
+            redirectAttributes.addFlashAttribute("success", "Estado actualizado correctamente");
+        }
+        return "redirect:/web/reservas";
+    }
 
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Long id, Model model) {

@@ -10,6 +10,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/web/aviones")
 public class AvionWebController {
@@ -22,7 +24,9 @@ public class AvionWebController {
 
     @GetMapping
     public String listar(Model model) {
-        model.addAttribute("aviones", avionService.listarTodos());
+        List<AvionDTO> lista = avionService.listarTodos();
+        System.out.println("Aviones: " + lista); // 🔹 debug
+        model.addAttribute("aviones", lista);
         return "aviones/lista";
     }
 
@@ -41,9 +45,15 @@ public class AvionWebController {
         if (result.hasErrors()) {
             return "aviones/formulario";
         }
-
-        avionService.crear(avionDTO); // ✅ Usar DTO y servicio
-        redirectAttributes.addFlashAttribute("success", "Avión guardado correctamente");
+        if (avionDTO.getId() == null) {
+            // CREAR
+            avionService.crear(avionDTO);
+            redirectAttributes.addFlashAttribute("success", "Avión creado correctamente");
+        } else {
+            // ACTUALIZAR
+            avionService.actualizar(avionDTO.getId(), avionDTO);
+            redirectAttributes.addFlashAttribute("success", "Avión actualizado correctamente");
+        }
         return "redirect:/web/aviones";
     }
 

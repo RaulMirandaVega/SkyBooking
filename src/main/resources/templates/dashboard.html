@@ -16,7 +16,6 @@
             min-height: 100vh;
         }
 
-        /* Barra superior de usuario */
         .user-bar {
             background: #ffffff;
             padding: 1rem 2rem;
@@ -52,7 +51,6 @@
             color: #6c757d;
         }
 
-        /* Reutilización de tus tarjetas */
         .menu-card {
             border-radius: 1rem;
             padding: 2rem 1rem;
@@ -79,7 +77,6 @@
             margin-bottom: 1rem;
         }
 
-        /* Estilo especial para tarjetas de admin */
         .card-admin i { color: #dc3545; }
         .card-admin .btn-main { background-color: #dc3545; border-color: #dc3545; }
         .card-admin .btn-main:hover { background-color: #bb2d3b; border-color: #b02a37; }
@@ -101,21 +98,23 @@
 
 <body>
 
+<!-- Barra de usuario -->
 <div class="user-bar">
     <div class="d-flex align-items-center">
         <h4 class="m-0 text-primary fw-bold"><i class="bi bi-airplane-engines-fill"></i> SkyBooking</h4>
     </div>
     <div class="d-flex align-items-center gap-3">
-        <div class="text-end d-none d-md-block">
+        <div class="text-end d-none d-md-block" sec:authorize="isAuthenticated()">
             <div class="text-muted small">Bienvenido,</div>
             <div class="user-info">
                 <span sec:authentication="name">Usuario</span>
-                <span class="role-badge" th:each="authority : ${#authentication.principal.authorities}"
-                      th:text="${authority.authority.replace('ROLE_', '')}">ROL</span>
+                <span class="role-badge"
+                      th:each="authority : ${#authentication.authorities}"
+                      th:text="${authority.getAuthority().replace('ROLE_', '')}">ROL</span>
             </div>
         </div>
 
-        <form th:action="@{/logout}" method="post">
+        <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
             <button type="submit" class="btn btn-outline-danger btn-logout">
                 <i class="bi bi-box-arrow-right"></i> Salir
             </button>
@@ -132,58 +131,54 @@
 
     <div class="row g-4 justify-content-center">
 
+        <!-- Vuelos -->
         <div class="col-12 col-sm-6 col-lg-3">
             <div class="menu-card">
                 <div>
                     <i class="bi bi-airplane-fill"></i>
                     <h5>Vuelos</h5>
                     <p>Consultar y programar vuelos</p>
+                    <small>Total: <span th:text="${totalVuelos}">0</span></small>
                 </div>
                 <a th:href="@{/web/vuelos}" class="btn btn-primary btn-main">Gestionar</a>
             </div>
         </div>
 
+        <!-- Reservas -->
         <div class="col-12 col-sm-6 col-lg-3" sec:authorize="hasAnyRole('ADMIN', 'EMPLEADO')">
             <div class="menu-card">
                 <div>
                     <i class="bi bi-ticket-perforated-fill"></i>
                     <h5>Reservas</h5>
                     <p>Gestión de billetes y ventas</p>
+                    <small>Total: <span th:text="${totalReservas}">0</span></small>
                 </div>
                 <a th:href="@{/web/reservas}" class="btn btn-primary btn-main">Gestionar</a>
             </div>
         </div>
 
+        <!-- Pasajeros -->
         <div class="col-12 col-sm-6 col-lg-3" sec:authorize="hasAnyRole('ADMIN', 'EMPLEADO')">
             <div class="menu-card">
                 <div>
                     <i class="bi bi-people-fill"></i>
                     <h5>Pasajeros</h5>
                     <p>Base de datos de clientes</p>
+                    <small>Total: <span th:text="${totalPasajeros}">0</span></small>
                 </div>
                 <a th:href="@{/web/pasajeros}" class="btn btn-primary btn-main">Gestionar</a>
             </div>
         </div>
 
+        <!-- Flota -->
         <div class="col-12 col-sm-6 col-lg-3" sec:authorize="hasRole('ADMIN')">
             <div class="menu-card card-admin">
                 <div>
                     <i class="bi bi-building-fill-gear"></i>
                     <h5>Flota (Admin)</h5>
-                    <p>Gestión técnica de aviones</p>
+                    <p>Total de aviones: <span th:text="${totalAviones}">0</span></p>
                 </div>
-                <a th:href="@{/web/aviones}" class="btn btn-primary btn-main">Acceder</a>
-            </div>
-        </div>
-
-        <div class="col-12 col-sm-6 col-lg-3" sec:authorize="hasRole('ADMIN')">
-            <div class="menu-card card-admin">
-                <div>
-                    <i class="bi bi-shield-lock-fill"></i>
-                    <h5>Seguridad</h5>
-                    <p>Gestión de usuarios y roles</p>
-                </div>
-                <button class="btn btn-primary btn-main" disabled>Próximamente</button>
+                <a th:href="@{/web/aviones}" class="btn btn-primary btn-main mt-2">Gestionar</a>
             </div>
         </div>
 

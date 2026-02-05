@@ -11,4 +11,6 @@ public interface PasajeroService {
     PasajeroDTO crear(PasajeroDTO dto);
     PasajeroDTO actualizar(Long id, PasajeroDTO dto);
     void eliminar(Long id);
+
+    long countPasajeros();
 }

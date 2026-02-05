@@ -13,4 +13,6 @@ public interface VueloService {
 
     List<VueloDTO> buscarVuelosDisponibles();
     List<VueloDTO> buscarPorOrigenDestino(String origen, String destino);
+
+    long countVuelos();
 }

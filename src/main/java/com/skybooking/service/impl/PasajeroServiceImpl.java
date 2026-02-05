@@ -113,6 +113,11 @@ public class PasajeroServiceImpl implements PasajeroService {
         pasajeroRepository.deleteById(id);
     }
 
+    @Override
+    public long countPasajeros() {
+        return pasajeroRepository.count();
+    }
+
     // MAPPERS
     private PasajeroDTO convertirADTO(Pasajero e) {
         return new PasajeroDTO(

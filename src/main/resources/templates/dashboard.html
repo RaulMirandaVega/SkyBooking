@@ -97,28 +97,7 @@
 </head>
 
 <body>
-
-<!-- Barra de usuario -->
-<div class="d-flex align-items-center gap-3">
-    <div class="text-end d-none d-md-block" sec:authorize="isAuthenticated()">
-        <div class="text-muted small">Bienvenido,</div>
-        <div class="user-info">
-            <span sec:authentication="name">Usuario</span>
-            <th:block th:if="${#authentication != null}">
-                <span class="role-badge"
-                      th:each="authority : ${#authentication.authorities}"
-                      th:text="${authority.authority.replace('ROLE_', '')}">ROL</span>
-            </th:block>
-        </div>
-    </div>
-
-    <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
-        <button type="submit" class="btn btn-outline-danger btn-logout">
-            <i class="bi bi-box-arrow-right"></i> Salir
-        </button>
-    </form>
-</div>
-
+<div th:replace="fragments/header :: header"></div>
 <div class="container pb-5">
 
     <div class="header-title text-center mb-5">

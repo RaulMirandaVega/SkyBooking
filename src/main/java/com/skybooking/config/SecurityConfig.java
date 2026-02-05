@@ -77,10 +77,10 @@ public class SecurityConfig {
                         .requestMatchers("/", "/login", "/css/**", "/js/**", "/images/**", "/error").permitAll()
 
                         // Panel admin: solo rol ADMIN
-                        .requestMatchers("/web/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/web/admin/**").hasAuthority("ADMIN")
 
                         // Panel empleado: rol ADMIN o EMPLEADO
-                        .requestMatchers("/web/empleado/**").hasAnyRole("ADMIN", "EMPLEADO")
+                        .requestMatchers("/web/empleado/**").hasAnyAuthority("ADMIN", "EMPLEADO")
 
                         // Cualquier otra URL requiere autenticación
                         .anyRequest().authenticated()

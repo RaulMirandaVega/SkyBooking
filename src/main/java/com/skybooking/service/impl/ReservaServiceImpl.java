@@ -144,6 +144,11 @@ public class ReservaServiceImpl implements ReservaService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public long countReservas() {
+        return reservaRepository.count();
+    }
+
     // MAPPERS
     private ReservaDTO convertirADTO(Reserva e) {
         ReservaDTO dto = new ReservaDTO();

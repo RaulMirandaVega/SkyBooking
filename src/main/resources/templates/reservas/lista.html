@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>SkyBooking - Reservas</title>
@@ -66,8 +67,7 @@
     </style>
 </head>
 <body>
-
-<div class="container">
+<div th:replace="~{fragments/header :: header}"></div><div class="container">
     <h2>Reservas</h2>
     <p>Aquí puedes ver todas las reservas realizadas por los pasajeros.</p>
 

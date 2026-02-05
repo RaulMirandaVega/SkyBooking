@@ -87,6 +87,11 @@ public class AvionServiceImpl implements AvionService {
         avionRepository.deleteById(id);
     }
 
+    @Override
+    public long countAviones() {
+        return avionRepository.count();
+    }
+
     // MAPPERS
     private AvionDTO convertirADTO(Avion e) {
         return new AvionDTO(

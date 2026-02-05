@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title th:text="${avion.id == null} ? 'Nuevo Avión' : 'Editar Avión'">Formulario de Avión</title>
@@ -36,6 +37,7 @@
     </style>
 </head>
 <body>
+<div th:replace="~{fragments/header :: header}"></div>
 
 <div class="container">
     <h2 th:text="${avion.id == null} ? 'Nuevo Avión' : 'Editar Avión'">Nuevo Avión</h2>

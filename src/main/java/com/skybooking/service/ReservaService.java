@@ -12,5 +12,7 @@ public interface ReservaService{
 
     List<ReservaDTO> listarPorPasajero(Long pasajeroId);
     List<ReservaDTO> listarPorVuelo(Long vueloId);
+
+    long countReservas();
 }
 

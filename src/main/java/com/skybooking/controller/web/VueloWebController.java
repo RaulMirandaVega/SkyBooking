@@ -2,6 +2,7 @@ package com.skybooking.controller.web;
 
 import com.skybooking.dto.VueloDTO;
 import com.skybooking.service.VueloService;
+import com.skybooking.service.AvionService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,9 +15,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class VueloWebController {
 
     private final VueloService vueloService;
+    private final AvionService avionService;
 
-    public VueloWebController(VueloService vueloService) {
+    public VueloWebController(VueloService vueloService, AvionService avionService) {
         this.vueloService = vueloService;
+        this.avionService = avionService;
     }
 
     // LISTA (siempre desde BD)
@@ -30,6 +33,8 @@ public class VueloWebController {
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("vuelo", new VueloDTO());
+        model.addAttribute("aviones", avionService.listarTodos());
+        model.addAttribute("estados", EstadoVuelo.values());
         return "vuelos/formulario";
     }
 
@@ -43,9 +48,12 @@ public class VueloWebController {
     @PostMapping("/guardar")
     public String guardar(@Valid @ModelAttribute("vuelo") VueloDTO vueloDTO,
                           BindingResult result,
+                          Model model,
                           RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
+            model.addAttribute("aviones", avionService.listarTodos());
+            model.addAttribute("estados", EstadoVuelo.values());
             return "vuelos/formulario";
         }
 

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Acceso Denegado - SkyBooking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .error-container {
+            max-width: 700px;
+            margin: 100px auto;
+        }
+        .error-header {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        .error-card {
+            border-radius: 1rem;
+            border: none;
+        }
+        .status-code {
+            font-size: 5rem;
+            font-weight: 800;
+            color: #ffc107;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        .suggestion {
+            font-style: italic;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container error-container">
+    <div class="card shadow-lg error-card">
+        <div class="card-header bg-warning text-dark d-flex align-items-center py-3">
+            <i class="bi bi-shield-lock-fill fs-2 me-3"></i>
+            <span class="error-header">Acceso Restringido</span>
+        </div>
+        <div class="card-body text-center p-5">
+            <div class="status-code">403</div>
+            <h3 class="mb-4">¡No tienes permiso para estar aquí!</h3>
+
+            <p class="lead mb-4">
+                Lo sentimos, <strong><span sec:authentication="name">Usuario</span></strong>,
+                tu rol actual no cuenta con las autorizaciones necesarias para visualizar este recurso.
+            </p>
+
+            <div class="alert alert-light border mb-4 text-start">
+                <h6>¿Por qué veo esto?</h6>
+                <ul>
+                    <li class="suggestion">Estás intentando acceder a una zona de administración sin ser administrador.</li>
+                    <li class="suggestion">Tu sesión ha expirado o ha habido un cambio en tus permisos.</li>
+                </ul>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
+                <a th:href="@{/web/dashboard}" class="btn btn-primary btn-lg px-4">
+                    <i class="bi bi-house-door-fill"></i> Ir al Dashboard
+                </a>
+
+                <form th:action="@{/logout}" method="post" class="m-0">
+                    <button type="submit" class="btn btn-outline-secondary btn-lg px-4">
+                        <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="card-footer text-muted text-center py-3">
+            Sistema de Gestión SkyBooking &copy; 2026
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

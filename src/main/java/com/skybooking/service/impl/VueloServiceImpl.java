@@ -106,6 +106,11 @@ public class VueloServiceImpl implements VueloService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public long countVuelos() {
+        return vueloRepository.count();
+    }
+
     // MAPPERS
     private VueloDTO convertirADTO(Vuelo entidad) {
         VueloDTO dto = new VueloDTO();
@@ -140,5 +145,7 @@ public class VueloServiceImpl implements VueloService {
 
         return vuelo;
     }
+
+
 
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>SkyBooking - Vuelos Programados</title>
@@ -41,7 +41,7 @@
         <p>Visualiza todos los vuelos con información clave y detalles destacados.</p>
     </div>
 
-    <a th:href="@{/web/vuelos/nuevo}" class="btn btn-success btn-lg btn-new">Nuevo Vuelo</a>
+    <a sec:authorize="isAuthenticated()" th:href="@{/web/vuelos/nuevo}" class="btn btn-success btn-lg btn-new">Nuevo Vuelo</a>
 
     <div th:if="${vuelos != null}">
         <div th:each="vuelo : ${vuelos}" class="flight-row">
@@ -94,7 +94,7 @@
                     <strong>Precio Business:</strong>
                     <span class="value-price" th:text="${vuelo.precioBusiness != null} ? ${#numbers.formatDecimal(vuelo.precioBusiness,1,'COMMA',2,'POINT')} : '0,00'">0,00</span>
                 </div>
-                <div>
+                <div sec:authorize="isAuthenticated()">
                     <strong>Acciones:</strong>
                     <span class="action-buttons">
                         <a th:href="@{/web/vuelos/editar/{id}(id=${vuelo.id})}" class="btn btn-edit btn-sm"
@@ -109,7 +109,6 @@
                     </span>
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -118,7 +117,12 @@
     </div>
 
     <div class="mt-4 text-center">
-        <a th:href="@{/}" class="btn btn-secondary btn-lg">Volver al panel principal</a>
+        <a sec:authorize="isAuthenticated()" th:href="@{/web/dashboard}" class="btn btn-primary btn-lg">
+            <i class="bi bi-arrow-left-circle"></i> Volver al Dashboard
+        </a>
+        <a sec:authorize="isAnonymous()" th:href="@{/}" class="btn btn-secondary btn-lg">
+            <i class="bi bi-house"></i> Volver al Inicio
+        </a>
     </div>
 
 </div>

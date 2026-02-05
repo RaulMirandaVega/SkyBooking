@@ -1,6 +1,7 @@
 package com.skybooking.controller.web;
 
 import com.skybooking.dto.VueloDTO;
+import com.skybooking.model.EstadoVuelo;
 import com.skybooking.service.VueloService;
 import com.skybooking.service.AvionService;
 import jakarta.validation.Valid;

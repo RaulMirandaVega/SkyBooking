@@ -70,7 +70,13 @@
             </div>
 
             <div class="mt-4 text-center">
-                <a th:href="@{/}" class="btn btn-primary btn-lg">Volver al panel principal</a>
+                <a sec:authorize="isAuthenticated()" th:href="@{/dashboard}" class="btn btn-primary btn-lg">
+                    Volver a mi Panel
+                </a>
+
+                <a sec:authorize="isAnonymous()" th:href="@{/}" class="btn btn-secondary btn-lg">
+                    Volver al Inicio
+                </a>
             </div>
         </div>
     </div>

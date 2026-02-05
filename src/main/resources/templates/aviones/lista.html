@@ -72,9 +72,10 @@
         <tr th:each="avion : ${aviones}">
             <td th:text="${avion.matricula}">EC1234</td>
             <td th:text="${avion.modelo}">Airbus A320</td>
-            <td th:text="${(avion.capacidadTurista != null ? avion.capacidadTurista : 0) + (avion.capacidadBusiness != null ? avion.capacidadBusiness : 0)}">180</td>
+            <td th:text="${avion.capacidad}">180</td>
             <td>
-                <span th:text="'Activo'" class="text-success">
+                <span th:text="${avion.estado}"
+                      th:classappend="${avion.estado == 'OPERATIVO'} ? 'text-success' : 'text-danger'">
                       OPERATIVO
                 </span>
             </td>
@@ -96,7 +97,5 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-<div th:replace="fragments :: footer"></div>
 </body>
 </html>

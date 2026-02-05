@@ -59,7 +59,7 @@
             </div>
             <div>
                 <div class="label">Salida</div>
-                <div class="value value-time" th:text="${vuelo.fechaSalida != null ? #temporals.format(vuelo.fechaSalida,'dd/MM/yyyy HH:mm') : 'N/A'}">12/01/2026 14:30</div>
+                <div class="value value-time" th:text="${#temporals.format(vuelo.fechaSalida,'dd/MM/yyyy HH:mm')}">12/01/2026 14:30</div>
             </div>
             <div>
                 <div class="label">Estado</div>
@@ -83,11 +83,11 @@
         <div class="flight-additional">
             <div>
                 <strong>Precio Turista:</strong>
-                <span class="value-price" th:text="${vuelo.precioTurista != null ? '|' + #numbers.formatDecimal(vuelo.precioTurista,2,'POINT',',','') + ' €|' : 'N/A'}">120 €</span>
+                <span class="value-price" th:text="${#numbers.formatDecimal(vuelo.precioTurista,2,'POINT',',','')} + ' €'">120 €</span>
             </div>
             <div>
                 <strong>Precio Business:</strong>
-                <span class="value-price" th:text="${vuelo.precioBusiness != null ? '|' + #numbers.formatDecimal(vuelo.precioBusiness,2,'POINT',',','') + ' €|' : 'N/A'}">250 €</span>
+                <span class="value-price" th:text="${#numbers.formatDecimal(vuelo.precioBusiness,2,'POINT',',','')} + ' €'">250 €</span>
             </div>
             <div>
                 <strong>Acciones:</strong>
@@ -114,7 +114,5 @@
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(el => new bootstrap.Tooltip(el))
 </script>
-
-<div th:replace="fragments :: footer"></div>
 </body>
 </html>

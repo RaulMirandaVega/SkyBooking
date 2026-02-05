@@ -106,7 +106,7 @@
 
     <div th:each="p : ${pasajeros}" class="card-passenger">
         <div class="passenger-header">
-            <div class="passenger-name" th:text="|${p.nombre} ${p.apellidos}|">Juan Pérez</div>
+            <div class="passenger-name" th:text="${p.nombre + ' ' + p.apellidos}">Juan Pérez</div>
             <div class="passenger-actions">
                 <a th:href="@{/web/pasajeros/editar/{id}(id=${p.id})}" class="btn btn-sm btn-warning" data-bs-toggle="tooltip" title="Editar pasajero">
                     <i class="bi bi-pencil-fill"></i>
@@ -121,7 +121,7 @@
             <div><strong>DNI:</strong> <span th:text="${p.dni}">12345678A</span></div>
             <div><strong>Email:</strong> <span th:text="${p.email}">juan.perez@email.com</span></div>
             <div><strong>Teléfono:</strong> <span th:text="${p.telefono != null ? p.telefono : '—'}">612345678</span></div>
-            <div><strong>Fecha Nacimiento:</strong> <span th:text="${p.fechaNacimiento != null ? #temporals.format(p.fechaNacimiento, 'dd/MM/yyyy') : 'N/A'}">12/01/1985</span></div>
+            <div><strong>Fecha Nacimiento:</strong> <span th:text="${#temporals.format(p.fechaNacimiento, 'dd/MM/yyyy')}">12/01/1985</span></div>
         </div>
     </div>
 
@@ -136,6 +136,5 @@
     const tooltipList = [...tooltipTriggerList].map(el => new bootstrap.Tooltip(el))
 </script>
 
-<div th:replace="fragments :: footer"></div>
 </body>
 </html>

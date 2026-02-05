@@ -94,7 +94,7 @@
             <td th:text="${reserva.pasajeroNombre}">Juan Pérez</td>
             <td th:text="${reserva.vueloNumero}">IB3001</td>
             <td th:text="${reserva.clase}">TURISTA</td>
-            <td th:text="${reserva.precioTotal != null ? '|' + #numbers.formatDecimal(reserva.precioTotal, 2, 'POINT', ',', '') + ' €|' : 'N/A'}">120 €</td>
+            <td th:text="${#numbers.formatDecimal(reserva.precioTotal, 2, 'POINT', ',', '') + ' €'}">120 €</td>
             <td>
                 <span class="estado-texto"
                       th:classappend="${reserva.estado == 'CONFIRMADA'}
@@ -107,7 +107,7 @@
 
 
             <td th:text="${reserva.asiento != null ? reserva.asiento : '—'}">12A</td>
-            <td th:text="${reserva.fechaReserva != null ? #temporals.format(reserva.fechaReserva, 'dd/MM/yyyy HH:mm') : 'N/A'}">12/01/2026 14:30</td>
+            <td th:text="${#temporals.format(reserva.fechaReserva, 'dd/MM/yyyy HH:mm')}">12/01/2026 14:30</td>
             <td>
                 <a th:href="@{/web/reservas/editar/{id}(id=${reserva.id})}" class="btn btn-sm btn-edit"
                    data-bs-toggle="tooltip" title="Editar reserva">
@@ -131,6 +131,5 @@
     const tooltipList = [...tooltipTriggerList].map(el => new bootstrap.Tooltip(el))
 </script>
 
-<div th:replace="fragments :: footer"></div>
 </body>
 </html>

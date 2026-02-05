@@ -24,8 +24,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.skybooking.exception.ErrorResponse;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -106,7 +104,7 @@ public class AuthRestController {
         usuario.setEmail(registroRequest.getEmail());
         usuario.setPassword(encoder.encode(registroRequest.getPassword()));
         usuario.setNombre(registroRequest.getNombre());
-        usuario.setApellidos(registroRequest.getApellidos());
+        usuario.setApellido(registroRequest.getApellidos());
         usuario.setEnabled(true);
 
         // Rol por defecto: ROLE_USER

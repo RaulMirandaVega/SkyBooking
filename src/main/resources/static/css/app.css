@@ -37,15 +37,3 @@ footer{ background: transparent; }
 
 /* Responsive spacing */
 @media (max-width:575.98px){ .d-md-block{ display:none !important; } }
-
-/* Avatar in navbar */
-.avatar{ width:40px; height:40px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-weight:700; color:#fff; }
-
-/* Stat cards */
-.stat-card{ min-width:120px; border-radius:0.8rem; background:#fff; border:1px solid #eef2f6; }
-
-/* Small improvements for forms and cards */
-.menu-card .btn-main{ width:100%; }
-
-/* Compact utility */
-.text-muted-small{ font-size: .85rem; color:var(--muted); }

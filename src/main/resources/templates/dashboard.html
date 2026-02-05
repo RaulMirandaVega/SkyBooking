@@ -30,29 +30,9 @@
 
 <div class="container pb-5">
 
-    <div class="header-title d-flex align-items-center justify-content-between mb-5 gap-3 flex-wrap">
-        <div>
-            <h1 class="mb-1">Bienvenido, <span sec:authentication="name">Usuario</span></h1>
-            <p class="text-muted mb-0">Resumen rápido de la actividad</p>
-        </div>
-        <div class="d-flex gap-3">
-            <div class="stat-card text-center p-3 shadow-sm">
-                <div class="small text-muted">Vuelos</div>
-                <div class="h4 mb-0" th:text="${vuelosCount ?: 0}">0</div>
-            </div>
-            <div class="stat-card text-center p-3 shadow-sm">
-                <div class="small text-muted">Reservas</div>
-                <div class="h4 mb-0" th:text="${reservasCount ?: 0}">0</div>
-            </div>
-            <div class="stat-card text-center p-3 shadow-sm">
-                <div class="small text-muted">Pasajeros</div>
-                <div class="h4 mb-0" th:text="${pasajerosCount ?: 0}">0</div>
-            </div>
-            <div class="stat-card text-center p-3 shadow-sm" sec:authorize="hasRole('ADMIN')">
-                <div class="small text-muted">Aviones</div>
-                <div class="h4 mb-0" th:text="${avionesCount ?: 0}">0</div>
-            </div>
-        </div>
+    <div class="header-title text-center mb-5">
+        <h1>Panel de Control</h1>
+        <p>Seleccione una opción para comenzar a gestionar</p>
     </div>
 
     <div class="row g-4 justify-content-center">

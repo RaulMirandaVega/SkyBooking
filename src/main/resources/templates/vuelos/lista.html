@@ -35,13 +35,7 @@
         <p>Visualiza todos los vuelos con información clave y detalles destacados.</p>
     </div>
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <form class="d-flex" th:action="@{/web/vuelos}" method="get">
-            <input class="form-control me-2" type="search" placeholder="Buscar por número, origen o destino" name="q" aria-label="Buscar">
-            <button class="btn btn-outline-primary" type="submit"><i class="bi bi-search"></i></button>
-        </form>
-        <a th:href="@{/web/vuelos/nuevo}" class="btn btn-success btn-lg">Nuevo Vuelo</a>
-    </div>
+    <a th:href="@{/web/vuelos/nuevo}" class="btn btn-success btn-lg btn-new">Nuevo Vuelo</a>
 
     <div th:each="vuelo : ${vuelos}" class="flight-row">
         <div class="flight-main">

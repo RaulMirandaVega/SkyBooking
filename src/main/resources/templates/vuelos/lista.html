@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>SkyBooking - Vuelos Programados</title>
@@ -33,6 +34,7 @@
     </style>
 </head>
 <body>
+<div th:replace="fragments/header :: header"></div>
 <div class="container py-4">
     <div class="page-header">
         <h2>Vuelos Programados</h2>

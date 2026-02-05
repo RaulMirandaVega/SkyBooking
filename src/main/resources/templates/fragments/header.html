@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<body>
+
+<div th:fragment="header">
+    <nav>
+        <span>
+            Usuario:
+            <strong sec:authentication="name"></strong>
+        </span>
+
+        <span sec:authorize="hasRole('ROLE_ADMIN')">
+            | ADMIN
+        </span>
+
+        <span sec:authorize="hasRole('ROLE_EMPLEADO')">
+            | EMPLEADO
+        </span>
+
+        <form th:action="@{/logout}" method="post" style="display:inline">
+            <button type="submit">Cerrar sesión</button>
+        </form>
+    </nav>
+
+    <hr>
+</div>
+
+</body>
+</html>

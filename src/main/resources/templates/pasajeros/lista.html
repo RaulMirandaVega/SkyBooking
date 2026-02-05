@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>SkyBooking - Pasajeros</title>
@@ -94,7 +95,7 @@
     </style>
 </head>
 <body>
-
+<div th:replace="fragments/header :: header"></div>
 <div class="container">
     <h2>Pasajeros</h2>
     <p>Consulta y administra todos los pasajeros registrados en el sistema.</p>

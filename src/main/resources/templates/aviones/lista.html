@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="refresh" content="10">
@@ -50,7 +52,7 @@
     </style>
 </head>
 <body>
-
+<div th:replace="fragments/header :: header"></div>
 <div class="container">
     <h2>Aviones</h2>
     <p>Consulta y administra todos los aviones registrados.</p>

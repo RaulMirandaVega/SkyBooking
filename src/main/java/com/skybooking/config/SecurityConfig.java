@@ -73,9 +73,16 @@ public class SecurityConfig {
         http
                 .securityMatcher("/", "/web/**", "/login", "/logout", "/css/**", "/js/**", "/images/**", "/error")
                 .authorizeHttpRequests(auth -> auth
+                        // Páginas públicas
                         .requestMatchers("/", "/login", "/css/**", "/js/**", "/images/**", "/error").permitAll()
-                        .requestMatchers("/web/admin/**").hasRole("ADMIN") // Solo admin [cite: 320]
+
+                        // Panel admin: solo rol ADMIN
+                        .requestMatchers("/web/admin/**").hasRole("ADMIN")
+
+                        // Panel empleado: rol ADMIN o EMPLEADO
                         .requestMatchers("/web/empleado/**").hasAnyRole("ADMIN", "EMPLEADO")
+
+                        // Cualquier otra URL requiere autenticación
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -95,6 +102,8 @@ public class SecurityConfig {
                 .exceptionHandling(ex -> ex.accessDeniedPage("/acceso-denegado"));
 
         http.authenticationProvider(authenticationProvider());
+
         return http.build();
     }
+
 }

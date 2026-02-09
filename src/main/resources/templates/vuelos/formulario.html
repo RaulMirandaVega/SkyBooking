@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${vuelo.id == null} ? 'Nuevo Vuelo' : 'Editar Vuelo'">Formulario de Vuelo</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -23,7 +25,6 @@
             text-align: center;
             font-weight: 700;
             color: #0d6efd;
-            margin-bottom: 0.5rem;
         }
         p {
             text-align: center;
@@ -31,117 +32,20 @@
             margin-bottom: 2rem;
         }
         .form-label { font-weight: 600; }
-        .form-control, .form-select {
-            border-radius: 0.5rem;
-            padding: 0.65rem 0.75rem;
-            border: 1px solid #ced4da;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-        .form-control:focus, .form-select:focus {
-            border-color: #0d6efd;
-            box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
-        }
-        .text-danger { font-size: 0.85rem; margin-top: 0.25rem; }
-        .input-group-text { font-weight: 700; background-color: #e9ecef; border-radius: 0.5rem 0 0 0.5rem; }
-        .btn-primary {
-            width: 100%;
-            font-weight: 600;
-            background-color: #0d6efd;
-            border: none;
-            border-radius: 0.5rem;
-            transition: background-color 0.2s;
-        }
-        .btn-primary:hover { background-color: #0b5ed7; }
-        .btn-secondary {
-            width: 100%;
-            font-weight: 600;
-            border-radius: 0.5rem;
-            margin-top: 0.5rem;
-        }
         .row-gap { gap: 1.25rem; }
     </style>
 </head>
+
 <body>
+
 <div th:replace="~{fragments/header :: header}"></div>
-<div class="container">
-    <div class="card-form">
-        <h2 th:text="${vuelo.id == null} ? 'Nuevo Vuelo' : 'Editar Vuelo'">Nuevo Vuelo</h2>
-
-        <form th:action="@{/web/vuelos/guardar}" th:object="${vuelo}" method="post">
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-            <input type="hidden" th:field="*{id}"/>
-
-            <div class="mb-3">
-                <label class="form-label">Número de Vuelo</label>
-                <input type="text" class="form-control" th:field="*{numeroVuelo}" placeholder="Ej: IB3001">
-                <div class="text-danger" th:errors="*{numeroVuelo}"></div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Origen</label>
-                    <input type="text" class="form-control" th:field="*{origen}" placeholder="Ej: Madrid">
-                    <div class="text-danger" th:errors="*{origen}"></div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Destino</label>
-                    <input type="text" class="form-control" th:field="*{destino}" placeholder="Ej: Barcelona">
-                    <div class="text-danger" th:errors="*{destino}"></div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Fecha y Hora de Salida</label>
-                    <input type="datetime-local" class="form-control" th:field="*{fechaSalida}">
-                    <div class="text-danger" th:errors="*{fechaSalida}"></div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Fecha y Hora de Llegada</label>
-                    <input type="datetime-local" class="form-control" th:field="*{fechaLlegada}">
-                    <div class="text-danger" th:errors="*{fechaLlegada}"></div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Precio Turista (€)</label>
-                    <input type="number" min="0" step="0.01" class="form-control" th:field="*{precioTurista}" placeholder="Ej: 120.00">
-                    <div class="text-danger" th:errors="*{precioTurista}"></div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Precio Business (€)</label>
-                    <input type="number" min="0" step="0.01" class="form-control" th:field="*{precioBusiness}" placeholder="Ej: 250.00">
-                    <div class="text-danger" th:errors="*{precioBusiness}"></div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Estado</label>
-                    <select class="form-select" th:field="*{estado}">
-                        <option value="">-- Selecciona estado --</option>
-                        <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado}"></option>
-                    </select>
-                    <div class="text-danger" th:errors="*{estado}"></div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Avión</label>
-                    <select class="form-select" th:field="*{avionId}">
-                        <option value="">-- Selecciona avión --</option>
-                        <option th:each="avion : ${aviones}" th:value="${avion.id}"
-                                th:text="|${avion.modelo} (${avion.matricula})|"></option>
-                    </select>
-                    <div class="text-danger" th:errors="*{avionId}"></div>
-                </div>
-            </div>
 
 <div class="container">
     <h2 th:text="${vuelo.id == null} ? 'Nuevo Vuelo' : 'Editar Vuelo'">Nuevo Vuelo</h2>
     <p>Completa los datos del vuelo</p>
 
     <form th:action="@{/web/vuelos/guardar}" th:object="${vuelo}" method="post">
-        <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" th:field="*{id}" />
 
         <div class="mb-3">
             <label class="form-label">Número de Vuelo</label>
@@ -152,12 +56,12 @@
         <div class="row row-gap">
             <div class="col-md-6">
                 <label class="form-label">Origen</label>
-                <input type="text" class="form-control" th:field="*{origen}" placeholder="Ciudad de salida">
+                <input type="text" class="form-control" th:field="*{origen}">
                 <span class="text-danger" th:errors="*{origen}"></span>
             </div>
             <div class="col-md-6">
                 <label class="form-label">Destino</label>
-                <input type="text" class="form-control" th:field="*{destino}" placeholder="Ciudad de llegada">
+                <input type="text" class="form-control" th:field="*{destino}">
                 <span class="text-danger" th:errors="*{destino}"></span>
             </div>
         </div>
@@ -177,18 +81,12 @@
 
         <div class="row row-gap mt-3">
             <div class="col-md-6">
-                <label class="form-label">Precio Turista</label>
-                <div class="input-group">
-                    <span class="input-group-text">€</span>
-                    <input type="number" step="0.01" class="form-control" th:field="*{precioTurista}" placeholder="Ej: 120,00">
-                </div>
+                <label class="form-label">Precio Turista (€)</label>
+                <input type="number" step="0.01" class="form-control" th:field="*{precioTurista}">
             </div>
             <div class="col-md-6">
-                <label class="form-label">Precio Business</label>
-                <div class="input-group">
-                    <span class="input-group-text">€</span>
-                    <input type="number" step="0.01" class="form-control" th:field="*{precioBusiness}" placeholder="Ej: 220,00">
-                </div>
+                <label class="form-label">Precio Business (€)</label>
+                <input type="number" step="0.01" class="form-control" th:field="*{precioBusiness}">
             </div>
         </div>
 
@@ -197,17 +95,20 @@
                 <label class="form-label">Avión</label>
                 <select class="form-select" th:field="*{avionId}">
                     <option value="">-- Selecciona Avión --</option>
-                    <option th:each="avion : ${aviones}" th:value="${avion.id}" th:text="${avion.modelo + ' (' + avion.matricula + ')'}"></option>
+                    <option th:each="avion : ${aviones}"
+                            th:value="${avion.id}"
+                            th:text="${avion.modelo + ' (' + avion.matricula + ')'}">
+                    </option>
                 </select>
             </div>
             <div class="col-md-6">
                 <label class="form-label">Estado</label>
                 <select class="form-select" th:field="*{estado}">
                     <option value="">-- Selecciona Estado --</option>
-                    <option value="PROGRAMADO" th:selected="${vuelo.estado=='PROGRAMADO'}">PROGRAMADO</option>
-                    <option value="EN_VUELO" th:selected="${vuelo.estado=='EN_VUELO'}">EN VUELO</option>
-                    <option value="FINALIZADO" th:selected="${vuelo.estado=='FINALIZADO'}">FINALIZADO</option>
-                    <option value="CANCELADO" th:selected="${vuelo.estado=='CANCELADO'}">CANCELADO</option>
+                    <option value="PROGRAMADO">PROGRAMADO</option>
+                    <option value="EN_VUELO">EN VUELO</option>
+                    <option value="FINALIZADO">FINALIZADO</option>
+                    <option value="CANCELADO">CANCELADO</option>
                 </select>
             </div>
         </div>

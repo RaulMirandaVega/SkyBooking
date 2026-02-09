@@ -111,6 +111,49 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Override
     @Transactional
+    public ReservaDTO actualizar(Long id, ReservaDTO dto) {
+        Reserva reserva = reservaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Reserva no encontrada"));
+
+        Vuelo vuelo = vueloRepository.findById(dto.getVueloId())
+                .orElseThrow(() -> new ResourceNotFoundException("Vuelo no encontrado"));
+
+        Pasajero pasajero = pasajeroRepository.findById(dto.getPasajeroId())
+                .orElseThrow(() -> new ResourceNotFoundException("Pasajero no encontrado"));
+
+        // Actualizar campos editables
+        reserva.setVuelo(vuelo);
+        reserva.setPasajero(pasajero);
+
+        try {
+            reserva.setClase(ClaseAsiento.valueOf(dto.getClase()));
+        } catch (Exception e) {
+            throw new BusinessException("Clase inválida. Valores permitidos: TURISTA, BUSINESS");
+        }
+
+        reserva.setAsiento(dto.getAsiento());
+
+        // Precio: si el DTO trae precio, lo usamos; si no, lo recalculamos según clase
+        if (dto.getPrecioTotal() != null) {
+            reserva.setPrecioTotal(dto.getPrecioTotal());
+        } else {
+            reserva.setPrecioTotal((reserva.getClase() == ClaseAsiento.BUSINESS) ? vuelo.getPrecioBusiness() : vuelo.getPrecioTurista());
+        }
+
+        // Estado: mapear solo si viene en DTO
+        if (dto.getEstado() != null && !dto.getEstado().isBlank()) {
+            try {
+                reserva.setEstado(EstadoReserva.valueOf(dto.getEstado()));
+            } catch (Exception e) {
+                throw new BusinessException("Estado inválido");
+            }
+        }
+
+        return convertirADTO(reservaRepository.save(reserva));
+    }
+
+    @Override
+    @Transactional
     public void cancelar(Long id) {
         Reserva reserva = reservaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Reserva no encontrada"));

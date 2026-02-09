@@ -8,6 +8,7 @@ public interface ReservaService{
     ReservaDTO buscarPorId(Long id);
     ReservaDTO buscarPorCodigo(String codigo);
     ReservaDTO crear(ReservaDTO dto);
+    ReservaDTO actualizar(Long id, ReservaDTO dto);
     void cancelar(Long id);
 
     List<ReservaDTO> listarPorPasajero(Long pasajeroId);

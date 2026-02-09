@@ -81,20 +81,8 @@ public class ReservaWebController {
             reservaService.crear(reservaDTO);
             redirectAttributes.addFlashAttribute("success", "Reserva creada correctamente");
         } else {
-            // ACTUALIZAR reserva existente: primero obtenerla
-            var reservaExistente = reservaService.buscarPorId(reservaDTO.getId());
-
-            // Actualizar solo los campos permitidos
-            reservaExistente.setVueloId(reservaDTO.getVueloId());
-            reservaExistente.setPasajeroId(reservaDTO.getPasajeroId());
-            reservaExistente.setClase(reservaDTO.getClase());
-            reservaExistente.setAsiento(reservaDTO.getAsiento());
-            reservaExistente.setPrecioTotal(reservaDTO.getPrecioTotal());
-            reservaExistente.setEstado(reservaDTO.getEstado());
-
-            // Guardar cambios reutilizando crear()
-            reservaService.crear(reservaExistente);
-
+            // ACTUALIZAR reserva existente
+            reservaService.actualizar(reservaDTO.getId(), reservaDTO);
             redirectAttributes.addFlashAttribute("success", "Reserva actualizada correctamente");
         }
 
@@ -105,16 +93,25 @@ public class ReservaWebController {
 
     @GetMapping("/cambiarEstado/{id}")
     public String cambiarEstado(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        var reserva = reservaService.buscarPorId(id);
-        if (reserva != null) {
+        try {
+            ReservaDTO reserva = reservaService.buscarPorId(id);
+            if (reserva == null) {
+                redirectAttributes.addFlashAttribute("error", "Reserva no encontrada");
+                return "redirect:/web/reservas";
+            }
+
             // Cambiar entre PENDIENTE → CONFIRMADA → CANCELADA → PENDIENTE
             switch (reserva.getEstado()) {
                 case "PENDIENTE" -> reserva.setEstado("CONFIRMADA");
                 case "CONFIRMADA" -> reserva.setEstado("CANCELADA");
                 default -> reserva.setEstado("PENDIENTE");
             }
-            reservaService.crear(reserva); // reutiliza crear para guardar cambios
+
+            // Usar actualizar para no crear una nueva reserva
+            reservaService.actualizar(id, reserva);
             redirectAttributes.addFlashAttribute("success", "Estado actualizado correctamente");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
         return "redirect:/web/reservas";
     }

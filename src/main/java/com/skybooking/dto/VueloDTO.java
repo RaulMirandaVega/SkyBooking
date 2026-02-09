@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -21,9 +23,11 @@ public class VueloDTO {
     private String destino;
     @NotNull
     @Future
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime fechaSalida;
     @NotNull
     @Future
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime fechaLlegada;
     @NotNull
     @DecimalMin(value = "0.0", inclusive = false)
